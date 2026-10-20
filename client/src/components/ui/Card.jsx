@@ -6,6 +6,7 @@ import { wobblyMd } from '../../theme/wobbly.js';
 export function Card({
   children,
   className = '',
+  padding = 'p-6',
   decoration = 'none',
   tone = 'paper',
   tilt = 0,
@@ -17,7 +18,7 @@ export function Card({
     <section
       {...props}
       style={{ borderRadius: wobblyMd, '--ui-card-tilt': `${safeTilt}deg`, ...props.style }}
-      className={`ui-card-tilt relative border-2 border-pencil p-6 shadow-[3px_3px_0_0_rgba(45,45,45,0.1)] ${tone === 'postit' ? 'bg-postit' : 'bg-white'} ${className}`}
+      className={`ui-card-tilt relative border-2 border-pencil ${padding} shadow-[3px_3px_0_0_rgba(45,45,45,0.1)] ${tone === 'postit' ? 'bg-postit' : 'bg-white'} ${className}`}
     >
       {decoration === 'tape' && (
         <span

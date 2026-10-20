@@ -13,9 +13,11 @@ export function ConfirmDialog({
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
   loading = false,
+  children,
 }) {
   return (
     <Modal open={open} onClose={onClose} title={title} description={description}>
+      {children}
       <div className="mt-6 flex flex-wrap justify-end gap-3">
         <Button variant="ghost" onClick={onClose} disabled={loading}>{cancelLabel}</Button>
         <Button variant="primary" onClick={onConfirm} loading={loading}>{confirmLabel}</Button>
