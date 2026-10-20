@@ -265,30 +265,6 @@ img { max-width: 100%; }
 }
 
 /* ─── Badges ─────────────────────────────────────────────────────────────── */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 9px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-.badge-open { background: var(--color-info-dim); color: var(--color-info); }
-.badge-in-progress { background: var(--color-warning-dim); color: var(--color-warning); }
-.badge-resolved { background: var(--color-success-dim); color: var(--color-success); }
-.badge-closed { background: var(--color-bg-4); color: var(--color-text-3); }
-.badge-default { background: var(--color-bg-4); color: var(--color-text-2); }
-.badge-critical { background: var(--color-danger-dim); color: var(--color-danger); }
-.badge-high { background: var(--color-warning-dim); color: var(--color-warning); }
-.badge-medium { background: var(--color-info-dim); color: var(--color-info); }
-.badge-low { background: var(--color-bg-4); color: var(--color-text-3); }
-.badge-ai-done { background: var(--color-success-dim); color: var(--color-success); }
-.badge-ai-rules { background: var(--color-warning-dim); color: var(--color-warning); cursor: help; }
-.badge-ai-pending { background: var(--color-purple-dim); color: var(--color-purple); }
-.badge-overdue { background: var(--color-danger-dim); color: var(--color-danger); }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
 /* ─── Login Page ─────────────────────────────────────────────────────────── */
@@ -567,25 +543,7 @@ img { max-width: 100%; }
   margin-bottom: 1rem;
 }
 
-/* ─── Utility ────────────────────────────────────────────────────────────── */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.gap-1 { gap: 0.5rem; }
-.gap-2 { gap: 1rem; }
-.gap-3 { gap: 1.5rem; }
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.text-sm { font-size: 0.85rem; }
-.text-xs { font-size: 0.75rem; }
-.text-muted { color: var(--color-text-3); }
-.text-secondary { color: var(--color-text-2); }
-.font-medium { font-weight: 500; }
-.font-bold { font-weight: 700; }
-.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* ─── Legacy non-Tailwind utility styles ─────────────────────────────────── */
 .divider { height: 1px; background: var(--color-border); margin: 1rem 0; }
 .section-title { font-size: 0.85rem; font-weight: 600; color: var(--color-text-3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
 .tag {
@@ -654,7 +612,16 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .badge-overdue { animation: pulse 2s infinite; }
   .new-reply-dot { animation: pulse 1.5s infinite; }
   .spinner { animation: spin 0.7s linear infinite; }
+}
+
+.ui-card-tilt {
+  transform: rotate(var(--ui-card-tilt, 0deg));
+}
+
+@media (max-width: 767px) {
+  .ui-card-tilt {
+    transform: rotate(clamp(-1deg, var(--ui-card-tilt, 0deg), 1deg));
+  }
 }

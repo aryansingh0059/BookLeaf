@@ -60,7 +60,7 @@ function TicketDetailPanel({ ticket, onClose, onUpdated }) {
           </div>
           <button className="btn btn-ghost btn-sm" onClick={onClose}>✕ Close</button>
         </div>
-        <div className="text-xs text-muted">Opened {timeAgo(ticket.createdAt)}</div>
+        <div className="text-xs text-[var(--color-text-3)]">Opened {timeAgo(ticket.createdAt)}</div>
       </div>
 
       <div className="ticket-body">

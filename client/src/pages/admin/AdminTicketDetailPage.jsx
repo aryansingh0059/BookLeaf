@@ -15,7 +15,7 @@ function BookInfoPanel({ book, royalty }) {
     return (
       <div className="book-info-panel">
         <h3>📚 General / Account Level</h3>
-        <p className="text-sm text-secondary">No specific book linked to this ticket.</p>
+        <p className="text-sm text-[var(--color-text-2)]">No specific book linked to this ticket.</p>
         {royalty && (
           <div className="royalty-flags">
             <div className="royalty-flag next-payout">Next payout: ~{royalty.nextPayoutDate}</div>
@@ -105,7 +105,7 @@ function AiDraftPanel({ ticket, onDraftReady }) {
       <div className="ai-draft-header">
         <div className="ai-draft-title">
           ✨ AI Draft Reply
-          {ticket.aiDraft?.model && <span className="text-xs text-muted">({ticket.aiDraft.model.split('-').slice(0, 2).join('-')})</span>}
+          {ticket.aiDraft?.model && <span className="text-xs text-[var(--color-text-3)]">({ticket.aiDraft.model.split('-').slice(0, 2).join('-')})</span>}
         </div>
         <button className="btn btn-ghost btn-sm" onClick={generate} disabled={loading}>
           {loading ? <><span className="spinner"></span> Generating…</> : (draftStatus === 'ready' ? '↻ Regenerate' : '✨ Generate Draft')}
@@ -400,7 +400,7 @@ export default function AdminTicketDetailPage() {
               <label className="form-label">
                 Priority
                 {t.aiPriority && t.aiPriority !== t.priority && (
-                  <span className="text-xs text-muted" style={{ marginLeft: 4 }}>(AI: {t.aiPriority})</span>
+                  <span className="text-xs text-[var(--color-text-3)]" style={{ marginLeft: 4 }}>(AI: {t.aiPriority})</span>
                 )}
               </label>
               <select className="form-select" value={t.priority} onChange={(e) => update({ priority: e.target.value })} disabled={updating}>
@@ -412,7 +412,7 @@ export default function AdminTicketDetailPage() {
               <label className="form-label">
                 Category
                 {t.aiCategory && t.aiCategory !== t.category && (
-                  <span className="text-xs text-muted" style={{ marginLeft: 4 }}>(AI: {t.aiCategory})</span>
+                  <span className="text-xs text-[var(--color-text-3)]" style={{ marginLeft: 4 }}>(AI: {t.aiCategory})</span>
                 )}
               </label>
               <select className="form-select" value={t.category} onChange={(e) => update({ category: e.target.value })} disabled={updating}>

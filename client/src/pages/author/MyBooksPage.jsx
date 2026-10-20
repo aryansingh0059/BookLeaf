@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { booksApi } from "../../api/endpoints.js";
 import { PRODUCTION_STAGES } from "../../utils/constants.js";
+import { StatusBadge } from "../../components/Badges.jsx";
 
 const fmt = (n) => (n == null ? null : `₹${Number(n).toLocaleString('en-IN')}`);
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : null);
@@ -47,7 +48,7 @@ function BookCard({ book }) {
       {inProd ? (
         <ProductionProgress status={book.status} />
       ) : (
-        <span className="badge badge-resolved">{book.status}</span>
+        <StatusBadge status={book.status} />
       )}
 
       <div className="book-stats">

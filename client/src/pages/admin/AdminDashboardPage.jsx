@@ -156,7 +156,7 @@ export default function AdminDashboardPage() {
         <input type="date" className="form-input" style={{ width: '150px' }} onChange={(e) => applyFilter('dateTo', e.target.value)} title="To date" />
 
         <button className="btn btn-ghost btn-sm" onClick={clearFilters}>Clear</button>
-        <span className="text-muted text-sm" style={{ marginLeft: 'auto' }}>{total} ticket{total !== 1 ? 's' : ''}</span>
+        <span className="text-[var(--color-text-3)] text-sm" style={{ marginLeft: 'auto' }}>{total} ticket{total !== 1 ? 's' : ''}</span>
       </div>
 
       {/* Table */}
@@ -190,11 +190,11 @@ export default function AdminDashboardPage() {
                       <div className="truncate" style={{ fontWeight: 500 }}>{t.subject}</div>
                       {t.isOverdue && <OverdueBadge isOverdue />}
                     </td>
-                    <td><span className="text-sm text-secondary">{t.category}</span></td>
+                    <td><span className="text-sm text-[var(--color-text-2)]">{t.category}</span></td>
                     <td><PriorityBadge priority={t.priority} /></td>
                     <td><StatusBadge status={t.status} /></td>
                     <td><AiBadge aiStatus={t.aiStatus} classifiedByRules={t.classifiedByRules} /></td>
-                    <td><span className="text-sm text-muted">{timeAgo(t.createdAt)}</span></td>
+                    <td><span className="text-sm text-[var(--color-text-3)]">{timeAgo(t.createdAt)}</span></td>
                     <td>
                       <span style={{ fontSize: '0.8rem', color: 'var(--color-text-2)' }}>
                         {t.assignedTo?.name ?? <span style={{ color: 'var(--color-text-3)' }}>Unassigned</span>}

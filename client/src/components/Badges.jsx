@@ -1,43 +1,42 @@
+import { Badge } from './ui/Badge.jsx';
+
+const statusVariants = {
+  Open: 'open',
+  'In Progress': 'in-progress',
+  Resolved: 'resolved',
+  Closed: 'closed',
+};
+
+const priorityVariants = {
+  Critical: 'critical',
+  High: 'high',
+  Medium: 'medium',
+  Low: 'low',
+};
+
+/** Use as a compatibility wrapper for status labels backed by the shared UI Badge. */
 export function StatusBadge({ status }) {
-  const map = {
-    Open: { label: 'Open', cls: 'badge-open' },
-    'In Progress': { label: 'In Progress', cls: 'badge-in-progress' },
-    Resolved: { label: 'Resolved', cls: 'badge-resolved' },
-    Closed: { label: 'Closed', cls: 'badge-closed' },
-  };
-  const b = map[status] ?? { label: status, cls: 'badge-default' };
-  return <span className={`badge ${b.cls}`}>{b.label}</span>;
+  return <Badge variant={statusVariants[status] ?? 'default'}>{status}</Badge>;
 }
 
+/** Use as a compatibility wrapper for priority labels backed by the shared UI Badge. */
 export function PriorityBadge({ priority }) {
-  const map = {
-    Critical: 'badge-critical',
-    High: 'badge-high',
-    Medium: 'badge-medium',
-    Low: 'badge-low',
-  };
-  return <span className={`badge ${map[priority] ?? 'badge-default'}`}>{priority}</span>;
+  return <Badge variant={priorityVariants[priority] ?? 'default'}>{priority}</Badge>;
 }
 
+/** Use to show whether the ticket was classified by AI, rules, or is still pending. */
 export function AiBadge({ aiStatus, classifiedByRules }) {
   if (!aiStatus) return null;
-  if (aiStatus === 'done') {
-    return <span className="badge badge-ai-done">AI classified</span>;
-  }
+  if (aiStatus === 'done') return <Badge variant="ai" />;
   if (classifiedByRules || aiStatus === 'failed' || aiStatus === 'skipped') {
-    return (
-      <span className="badge badge-ai-rules" title="AI unavailable, classified by rules, please review">
-        ⚠ Rules fallback
-      </span>
-    );
+    return <Badge variant="rules" title="AI unavailable, classified by rules, please review" />;
   }
-  if (aiStatus === 'pending') {
-    return <span className="badge badge-ai-pending">AI pending…</span>;
-  }
+  if (aiStatus === 'pending') return <Badge variant="pending" />;
   return null;
 }
 
+/** Use to mark overdue tickets; renders nothing when the ticket is not overdue. */
 export function OverdueBadge({ isOverdue }) {
   if (!isOverdue) return null;
-  return <span className="badge badge-overdue">Overdue</span>;
+  return <Badge variant="overdue" />;
 }
