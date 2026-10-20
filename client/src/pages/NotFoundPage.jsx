@@ -11,7 +11,7 @@ export default function NotFoundPage() {
   const navigate = useNavigate();
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-10 text-center text-pencil">
+    <main id="main-content" tabIndex={-1} className="flex min-h-screen items-center justify-center px-4 py-10 text-center text-pencil focus-visible:outline-none">
       <Card decoration="tack" className="w-full max-w-xl p-8 pt-12">
         <span
           aria-hidden="true"
@@ -21,7 +21,7 @@ export default function NotFoundPage() {
           <CircleHelp className="h-10 w-10" strokeWidth={2.5} />
         </span>
         <p className="mt-5 font-heading text-5xl font-bold">404</p>
-        <h1 className="font-heading text-4xl font-bold">Page not found</h1>
+        <h1 className="font-heading text-4xl font-bold md:text-5xl">Page not found</h1>
         <p className="mt-3 text-xl leading-relaxed">Looks like this page wandered off the paper.</p>
         <Button className="mt-6" onClick={() => navigate('/')}>
           <House aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />

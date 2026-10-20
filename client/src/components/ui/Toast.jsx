@@ -22,7 +22,7 @@ export function Toast({ message, type = 'info', onDismiss }) {
           type="button"
           aria-label="Dismiss notification"
           onClick={onDismiss}
-          className="grid h-10 w-10 shrink-0 place-items-center border-2 border-dashed border-pencil bg-white"
+          className="grid h-12 w-12 shrink-0 place-items-center border-2 border-dashed border-pencil bg-white"
           style={{ borderRadius: wobblyMd }}
         >
           <X aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />

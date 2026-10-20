@@ -30,9 +30,9 @@ export function Button({
       disabled={isDisabled}
       aria-busy={loading || undefined}
       style={{ borderRadius: wobbly }}
-      className={`inline-flex min-h-12 items-center justify-center gap-2 px-5 py-2 font-body text-xl font-bold motion-safe:transition-transform motion-safe:duration-100 hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/20 disabled:translate-x-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-muted disabled:bg-muted disabled:text-pencil/50 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:active:translate-x-0 disabled:active:translate-y-0 ${variants[variant] ?? variants.primary} ${className}`}
+      className={`inline-flex min-h-12 items-center justify-center gap-2 px-5 py-2 font-body text-xl font-bold motion-safe:transition-transform motion-safe:duration-100 motion-safe:hover:translate-x-0.5 motion-safe:hover:translate-y-0.5 motion-safe:active:translate-x-1 motion-safe:active:translate-y-1 active:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/40 disabled:translate-x-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:border-muted disabled:bg-muted disabled:text-pencil/65 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:active:translate-x-0 disabled:active:translate-y-0 ${variants[variant] ?? variants.primary} ${className}`}
     >
-      {loading && <LoaderCircle aria-hidden="true" className="h-5 w-5 animate-spin" strokeWidth={2.5} />}
+      {loading && <LoaderCircle aria-hidden="true" className="h-5 w-5 motion-safe:animate-spin" strokeWidth={2.5} />}
       {children}
     </button>
   );

@@ -275,7 +275,9 @@ img { max-width: 100%; }
 /* Phase 1 foundation overrides; legacy component styles are restyled later. */
 body {
   font-family: 'Patrick Hand', cursive;
+  font-size: 18px;
   color: #2d2d2d;
+  line-height: 1.5;
   background-color: #fdfbf7;
   background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
   background-size: 24px 24px;
@@ -285,7 +287,7 @@ body {
 :is(input, textarea, select, button, a, [tabindex]):focus-visible {
   outline: none;
   border-color: #2d5da1;
-  box-shadow: 0 0 0 2px rgb(45 93 161 / 20%);
+  box-shadow: 0 0 0 3px rgb(45 93 161 / 45%);
 }
 
 @media (prefers-reduced-motion: no-preference) {

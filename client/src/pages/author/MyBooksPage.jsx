@@ -58,7 +58,7 @@ function ProductionProgress({ status }) {
     <section aria-label={`Production progress: ${status}`} className="space-y-3">
       <div className="flex items-center gap-2">
         <SectionTag>Production stages</SectionTag>
-        <span className="text-base text-pencil/70">{status}</span>
+        <span className="text-lg text-pencil/70">{status}</span>
       </div>
       <ol className="grid grid-cols-3 gap-2 sm:grid-cols-5">
         {stageNames.map(({ label }, index) => {
@@ -68,7 +68,7 @@ function ProductionProgress({ status }) {
             <li
               key={label}
               aria-current={isCurrent ? 'step' : undefined}
-              className={`flex min-h-12 items-center gap-2 border-2 px-2 py-1.5 text-base leading-tight ${
+              className={`flex min-h-12 items-center gap-2 border-2 px-2 py-1.5 text-lg leading-tight ${
                 isCurrent
                   ? 'border-accent bg-white font-bold text-pencil'
                   : isComplete
@@ -86,7 +86,7 @@ function ProductionProgress({ status }) {
               >
                 {isComplete
                   ? <CircleCheck className="h-4 w-4" strokeWidth={2.5} />
-                  : <span className="text-sm">{index + 1}</span>}
+                  : <span className="text-lg">{index + 1}</span>}
               </span>
               <span>{label}</span>
             </li>
@@ -100,7 +100,7 @@ function ProductionProgress({ status }) {
 function BookMetric({ icon: Icon, label, value }) {
   return (
     <div className="min-w-0 border-2 border-dashed border-muted bg-white/80 p-3" style={{ borderRadius: wobblySoft }}>
-      <div className="flex items-center gap-2 text-base font-bold text-pencil/70">
+      <div className="flex items-center gap-2 text-lg font-bold text-pencil/70">
         <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-blue" strokeWidth={2.5} />
         <span>{label}</span>
       </div>
@@ -115,7 +115,7 @@ function RoyaltyMetric({ label, value, pending = false }) {
       className={`min-w-0 border-2 border-pencil p-3 ${pending ? 'bg-postit' : 'bg-white'}`}
       style={{ borderRadius: wobblySoft }}
     >
-      <p className="text-base font-bold text-pencil/70">{label}</p>
+      <p className="text-lg font-bold text-pencil/70">{label}</p>
       <p className="mt-1 break-words font-heading text-2xl font-bold text-pencil">{value}</p>
     </div>
   );
@@ -150,7 +150,7 @@ function BookCard({ book, index }) {
               <h2 className="break-words font-heading text-3xl font-bold leading-tight text-pencil">{book.title}</h2>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <SectionTag>{book.genre || 'Genre not set'}</SectionTag>
-                <span className="text-base text-pencil/70">ISBN: {book.isbn || 'Pending'}</span>
+                <span className="text-lg text-pencil/70">ISBN: {book.isbn || 'Pending'}</span>
               </div>
             </div>
           </div>
@@ -193,7 +193,7 @@ function BookCard({ book, index }) {
             <RoyaltyMetric label="Paid" value={formatMoney(book.royaltyPaid) ?? '₹0'} />
             <RoyaltyMetric label="Pending" value={formatMoney(book.royaltyPending) ?? '₹0'} pending />
           </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-1 text-base leading-relaxed text-pencil/75">
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-lg leading-relaxed text-pencil/75">
             <span>Last payout: {formatDate(book.lastRoyaltyPayoutDate) ?? 'No payout yet'}</span>
             {royalty.belowThreshold && <span>Pending below ₹1,000 threshold; rolls over next quarter.</span>}
             {royalty.neverPaid && !royalty.belowThreshold && <span>First payout pending; please verify your bank details.</span>}
@@ -209,7 +209,7 @@ function BookCard({ book, index }) {
       )}
 
       {book.printPartner && (
-        <p className="text-base leading-relaxed text-pencil/70">Print partner: {book.printPartner}</p>
+        <p className="text-lg leading-relaxed text-pencil/70">Print partner: {book.printPartner}</p>
       )}
     </Card>
   );
@@ -281,7 +281,7 @@ export default function MyBooksPage() {
       </header>
 
       {loading ? (
-        <div className="grid gap-6 md:grid-cols-2" aria-label="Loading books">
+        <div role="status" aria-live="polite" className="grid gap-6 md:grid-cols-2" aria-label="Loading books">
           {Array.from({ length: 4 }, (_, index) => <BookCardSkeleton key={index} />)}
         </div>
       ) : error ? (

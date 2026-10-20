@@ -33,10 +33,10 @@ export default function UiKitPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   return (
-    <main className="mx-auto max-w-5xl space-y-10 px-4 py-8 text-pencil md:px-8">
+    <main id="main-content" tabIndex={-1} className="mx-auto max-w-5xl space-y-10 px-4 py-8 text-pencil focus-visible:outline-none md:px-8">
       <header className="space-y-3">
         <SectionTag>Temporary development preview</SectionTag>
-        <h1 className="font-heading text-5xl">
+        <h1 className="font-heading text-4xl md:text-5xl">
           <SquiggleUnderline>BookLeaf UI Kit</SquiggleUnderline>
         </h1>
         <p className="text-xl leading-relaxed">Shared hand-drawn components, shown with common states.</p>

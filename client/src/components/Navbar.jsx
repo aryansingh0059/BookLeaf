@@ -68,7 +68,7 @@ function ConnectionIndicator() {
       title={status.label}
       aria-label={`Socket connection: ${status.label}`}
       role="status"
-      className="inline-flex min-h-12 items-center gap-2 px-2 text-base text-pencil"
+      className="inline-flex min-h-12 items-center gap-2 px-2 text-lg text-pencil"
     >
       <span aria-hidden="true" className={`grid h-8 w-8 place-items-center border-2 border-pencil ${status.dot}`} style={{ borderRadius: wobblyMd }}>
         <Icon className="h-4 w-4" strokeWidth={2.5} />
@@ -93,7 +93,7 @@ function NavItems({ isAdmin, onNavigate }) {
       to={to}
       end={end}
       onClick={onNavigate}
-      className={({ isActive }) => `relative inline-flex min-h-12 items-center px-3 font-body text-xl font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/20 ${isActive ? 'text-pencil' : 'text-pencil/70 hover:text-pencil'}`}
+      className={({ isActive }) => `relative inline-flex min-h-12 items-center px-3 font-body text-xl font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/40 ${isActive ? 'text-pencil' : 'text-pencil/70 hover:text-pencil'}`}
     >
       {({ isActive }) => (
         <>
@@ -165,7 +165,7 @@ export function Navbar() {
         style={{ borderRadius: wobblyMd }}
       >
         <nav aria-label="Main navigation" className="mx-auto flex min-h-16 max-w-7xl items-center gap-3 px-4 py-2 md:px-6">
-          <Link to={isAdmin ? '/admin' : '/author/books'} className="flex min-h-12 shrink-0 items-center gap-2 text-pencil focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/20">
+          <Link to={isAdmin ? '/admin' : '/author/books'} className="flex min-h-12 shrink-0 items-center gap-2 text-pencil focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/40">
             <Leaf aria-hidden="true" className={`h-7 w-7 ${isAdmin ? 'text-accent' : 'text-ink-blue'}`} strokeWidth={2.5} />
             <span className="font-heading text-3xl font-bold leading-none">BookLeaf</span>
           </Link>

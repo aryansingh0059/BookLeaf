@@ -53,7 +53,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-10 text-pencil">
+    <main id="main-content" tabIndex={-1} className="flex min-h-screen items-center justify-center px-4 py-10 text-pencil focus-visible:outline-none">
       <Card decoration="tack" className="w-full max-w-xl p-6 pt-10 sm:p-10 sm:pt-12">
         <div className="mb-4 flex justify-center">
           <span
@@ -65,7 +65,7 @@ export default function LoginPage() {
           </span>
         </div>
         <p className="mb-1 text-center font-body text-lg font-bold text-ink-blue">Author &amp; Admin Support System</p>
-        <h1 className="text-center font-heading text-4xl font-bold leading-tight sm:text-5xl">
+        <h1 className="text-center font-heading text-4xl font-bold leading-tight md:text-5xl">
           Welcome back<span className="login-mark inline-block">!</span>
         </h1>
         <p className="mt-2 text-center text-lg leading-relaxed">Sign in to your BookLeaf portal.</p>

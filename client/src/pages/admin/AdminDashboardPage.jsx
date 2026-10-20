@@ -57,7 +57,7 @@ function StatTile({ label, value, icon: Icon, onClick, active = false }) {
 function TicketTable({ tickets, loading, onOpen, onRetry }) {
   if (loading) {
     return (
-      <div className="space-y-3 p-5" aria-label="Loading tickets">
+      <div role="status" aria-live="polite" className="space-y-3 p-5" aria-label="Loading tickets">
         {Array.from({ length: 6 }, (_, index) => <Skeleton key={index} lines={2} />)}
       </div>
     );
@@ -79,7 +79,7 @@ function TicketTable({ tickets, loading, onOpen, onRetry }) {
       <div className="hidden overflow-x-auto md:block">
         <table className="w-full min-w-[1050px] border-collapse text-left">
           <thead>
-            <tr className="border-b-2 border-dashed border-muted bg-muted/40 font-body text-base font-bold text-pencil">
+            <tr className="border-b-2 border-dashed border-muted bg-muted/40 font-body text-lg font-bold text-pencil">
               {['Ticket', 'Author', 'Subject', 'Category', 'Priority', 'Status', 'Assignee', 'Age', 'Classified'].map((heading) => (
                 <th key={heading} scope="col" className="whitespace-nowrap px-3 py-3">{heading}</th>
               ))}
@@ -112,11 +112,11 @@ function TicketTable({ tickets, loading, onOpen, onRetry }) {
                       {ticket.isOverdue && <Badge variant="overdue">OVERDUE</Badge>}
                     </div>
                   </td>
-                  <td className="max-w-48 px-3 py-4 text-base">{ticket.category}</td>
+                  <td className="max-w-48 px-3 py-4 text-lg">{ticket.category}</td>
                   <td className="px-3 py-4"><PriorityBadge priority={ticket.priority} /></td>
                   <td className="px-3 py-4"><StatusBadge status={ticket.status} /></td>
-                  <td className="px-3 py-4">{ticket.assignedTo?.name ?? <span className="text-pencil/60">Unassigned</span>}</td>
-                  <td className="whitespace-nowrap px-3 py-4 text-base">{timeAgo(ticket.createdAt)}</td>
+                  <td className="px-3 py-4">{ticket.assignedTo?.name ?? <span className="text-pencil/70">Unassigned</span>}</td>
+                  <td className="whitespace-nowrap px-3 py-4 text-lg">{timeAgo(ticket.createdAt)}</td>
                   <td className="px-3 py-4"><AiBadge aiStatus={ticket.aiStatus} classifiedByRules={ticket.classifiedByRules} /></td>
                 </tr>
               );
@@ -147,13 +147,13 @@ function TicketTable({ tickets, loading, onOpen, onRetry }) {
                   </span>
                 </span>
                 <span className="w-full break-words text-lg font-bold">{ticket.subject}</span>
-                <span className="w-full text-left text-base">{ticket.author?.name ?? '—'} · {ticket.category}</span>
+                <span className="w-full text-left text-lg">{ticket.author?.name ?? '—'} · {ticket.category}</span>
                 <span className="flex w-full flex-wrap items-center gap-2">
                   <PriorityBadge priority={ticket.priority} />
                   <StatusBadge status={ticket.status} />
                   <AiBadge aiStatus={ticket.aiStatus} classifiedByRules={ticket.classifiedByRules} />
                 </span>
-                <span className="flex w-full flex-wrap justify-between gap-2 text-base text-pencil/70">
+                <span className="flex w-full flex-wrap justify-between gap-2 text-lg text-pencil/70">
                   <span>Assigned: {ticket.assignedTo?.name ?? 'Unassigned'}</span>
                   <time dateTime={ticket.createdAt}>{timeAgo(ticket.createdAt)}</time>
                 </span>

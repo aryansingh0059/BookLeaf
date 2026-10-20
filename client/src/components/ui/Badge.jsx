@@ -40,7 +40,7 @@ export function Badge({ variant = 'default', children, className = '', title, ..
       {...props}
       title={title}
       style={{ borderRadius: wobblyAlt, ...props.style }}
-      className={`inline-flex min-h-8 items-center gap-1.5 border px-3 py-1 font-body text-base font-bold leading-none ${config.className} ${className}`}
+      className={`inline-flex min-h-8 items-center gap-1.5 border px-3 py-1 font-body text-lg font-bold leading-none ${config.className} ${className}`}
     >
       <Icon aria-hidden="true" className="h-4 w-4 shrink-0" strokeWidth={2.5} />
       <span>{label}</span>

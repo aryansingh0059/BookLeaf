@@ -8,7 +8,7 @@ export function SectionTag({ children, className = '', ...props }) {
     <span
       {...props}
       style={{ borderRadius: wobblyAlt, ...props.style }}
-      className={`inline-flex items-center border-2 border-pencil bg-postit px-3 py-1 font-body text-base font-bold text-pencil ${className}`}
+      className={`inline-flex items-center border-2 border-pencil bg-postit px-3 py-1 font-body text-lg font-bold text-pencil ${className}`}
     >
       {children}
     </span>

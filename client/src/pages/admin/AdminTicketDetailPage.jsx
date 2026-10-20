@@ -47,7 +47,7 @@ function formatDate(dateValue) {
 function ContextRow({ label, value }) {
   return (
     <div className="flex flex-wrap justify-between gap-x-4 gap-y-1 border-b border-dashed border-muted py-2 last:border-0">
-      <dt className="text-base text-pencil/70">{label}</dt>
+      <dt className="text-lg text-pencil/70">{label}</dt>
       <dd className="max-w-[65%] break-words text-right text-lg font-bold text-pencil">{value ?? '—'}</dd>
     </div>
   );
@@ -97,23 +97,23 @@ function BookAuthorPanel({ ticket }) {
         <div className="space-y-2 border-t-2 border-dashed border-muted pt-4" aria-label="Royalty context">
           <h3 className="font-heading text-xl font-bold text-pencil">Royalty notes</h3>
           {royalty.belowThreshold && (
-            <p className="flex items-start gap-2 border-2 border-pencil bg-postit p-3 text-base leading-relaxed text-pencil" style={{ borderRadius: wobblySoft }}>
+            <p className="flex items-start gap-2 border-2 border-pencil bg-postit p-3 text-lg leading-relaxed text-pencil" style={{ borderRadius: wobblySoft }}>
               <AlertTriangle aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" strokeWidth={2.5} />
               Below ₹1,000 threshold; pending rolls over.
             </p>
           )}
           {royalty.neverPaid && !royalty.belowThreshold && (
-            <p className="flex items-start gap-2 border-2 border-accent bg-white p-3 text-base leading-relaxed text-[#b91c1c]" style={{ borderRadius: wobblySoft }}>
+            <p className="flex items-start gap-2 border-2 border-accent bg-white p-3 text-lg leading-relaxed text-[#b91c1c]" style={{ borderRadius: wobblySoft }}>
               <AlertCircle aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" strokeWidth={2.5} />
               No payout yet; verify bank details.
             </p>
           )}
           {royalty.inProduction && (
-            <p className="border-2 border-ink-blue bg-white p-3 text-base leading-relaxed text-pencil" style={{ borderRadius: wobblySoft }}>
+            <p className="border-2 border-ink-blue bg-white p-3 text-lg leading-relaxed text-pencil" style={{ borderRadius: wobblySoft }}>
               Production in progress; royalties start after publication.
             </p>
           )}
-          <p className="flex items-center gap-2 text-base leading-relaxed text-pencil/75">
+          <p className="flex items-center gap-2 text-lg leading-relaxed text-pencil/75">
             <CalendarDays aria-hidden="true" className="h-5 w-5 shrink-0 text-ink-blue" strokeWidth={2.5} />
             Next payout: {formatDate(royalty.nextPayoutDate)}
           </p>
@@ -199,7 +199,7 @@ function AiDraftPanel({ ticket, onTicketUpdated }) {
           </span>
           <div>
             <h2 className="font-heading text-2xl font-bold text-pencil">AI Draft Reply</h2>
-            {ticket.aiDraft?.model && <p className="text-base text-pencil/70">Model: {ticket.aiDraft.model}</p>}
+            {ticket.aiDraft?.model && <p className="text-lg text-pencil/70">Model: {ticket.aiDraft.model}</p>}
           </div>
         </div>
         <Button type="button" variant="secondary" onClick={generateDraft} loading={loading} disabled={loading}>
@@ -209,7 +209,7 @@ function AiDraftPanel({ ticket, onTicketUpdated }) {
       </div>
 
       {generationError && draftStatus === 'ready' && (
-        <p role="alert" className="border-2 border-dashed border-accent bg-white p-3 text-base leading-relaxed text-[#b91c1c]" style={{ borderRadius: wobblyAlt }}>
+        <p role="alert" className="border-2 border-dashed border-accent bg-white p-3 text-lg leading-relaxed text-[#b91c1c]" style={{ borderRadius: wobblyAlt }}>
           {rateLimited
             ? 'AI is rate limited. Wait a moment before trying to regenerate; your current draft is still available.'
             : `AI could not regenerate the draft: ${generationError.message}`}
@@ -242,7 +242,7 @@ function AiDraftPanel({ ticket, onTicketUpdated }) {
             error={replyError}
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-base text-pencil/70" aria-live="polite">{words} word{words === 1 ? '' : 's'}</p>
+            <p className="text-lg text-pencil/70" aria-live="polite">{words} word{words === 1 ? '' : 's'}</p>
             <Button type="button" onClick={() => { setReplyError(''); setConfirmOpen(true); }} disabled={!draftText.trim()}>
               <Send aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
               Send reply
@@ -262,8 +262,8 @@ function AiDraftPanel({ ticket, onTicketUpdated }) {
                   ? 'Please wait a moment before retrying. Your manual reply can be sent now.'
                   : 'Draft generation is unavailable. Your manual reply box is ready to use.'}
               </p>
-              {generationError?.message && <p className="mt-1 text-base leading-relaxed">{generationError.message}</p>}
-              {rateLimited && <p className="mt-1 text-base leading-relaxed">Retry after the provider rate limit clears.</p>}
+              {generationError?.message && <p className="mt-1 text-lg leading-relaxed">{generationError.message}</p>}
+              {rateLimited && <p className="mt-1 text-lg leading-relaxed">Retry after the provider rate limit clears.</p>}
             </div>
           </div>
           <Textarea
@@ -275,7 +275,7 @@ function AiDraftPanel({ ticket, onTicketUpdated }) {
             placeholder="Write a clear, helpful response to the author…"
             error={replyError}
           />
-          <p className="text-base text-pencil/70" aria-live="polite">{words} word{words === 1 ? '' : 's'}</p>
+          <p className="text-lg text-pencil/70" aria-live="polite">{words} word{words === 1 ? '' : 's'}</p>
           <Button type="button" onClick={() => { setReplyError(''); setConfirmOpen(true); }} disabled={!draftText.trim()}>
             <Send aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
             Send manual reply
@@ -296,7 +296,7 @@ function AiDraftPanel({ ticket, onTicketUpdated }) {
             error={replyError}
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-base text-pencil/70">{words} word{words === 1 ? '' : 's'}</p>
+            <p className="text-lg text-pencil/70">{words} word{words === 1 ? '' : 's'}</p>
             <Button type="button" onClick={() => { setReplyError(''); setConfirmOpen(true); }} disabled={!draftText.trim()}>
               <Send aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
               Send reply
@@ -355,7 +355,7 @@ function Conversation({ ticket }) {
                   </span>
                   <SectionTag>{fromAdmin ? 'Team reply' : 'Author'}</SectionTag>
                 </div>
-                <time dateTime={response.createdAt} className="text-base text-pencil/70">{timeAgo(response.createdAt)}</time>
+                <time dateTime={response.createdAt} className="text-lg text-pencil/70">{timeAgo(response.createdAt)}</time>
               </div>
               <p className="whitespace-pre-wrap break-words text-lg leading-relaxed text-pencil">{response.body}</p>
             </Card>
@@ -485,7 +485,7 @@ export default function AdminTicketDetailPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6" aria-label="Loading ticket">
+      <div role="status" aria-live="polite" className="space-y-6" aria-label="Loading ticket">
         <Skeleton lines={2} />
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
           <Skeleton lines={10} />
@@ -500,7 +500,7 @@ export default function AdminTicketDetailPage() {
       <Card role="alert" className="mx-auto flex max-w-2xl flex-col items-start gap-4 border-accent">
         <div className="flex items-center gap-3 text-[#b91c1c]">
           <AlertCircle aria-hidden="true" className="h-7 w-7" strokeWidth={2.5} />
-          <h1 className="font-heading text-3xl font-bold">Ticket unavailable</h1>
+          <h1 className="font-heading text-4xl font-bold md:text-5xl">Ticket unavailable</h1>
         </div>
         <p className="text-lg leading-relaxed text-pencil">{loadError || 'This ticket could not be found.'}</p>
         <div className="flex flex-wrap gap-3">
@@ -556,7 +556,7 @@ export default function AdminTicketDetailPage() {
       )}
 
       <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <main className="min-w-0 space-y-6">
+        <section aria-label="Ticket conversation and reply" className="min-w-0 space-y-6">
           <Card decoration="tape" padding="p-6 pt-8" className="space-y-4">
             <div className="flex items-center gap-2">
               <FileText aria-hidden="true" className="h-6 w-6 text-ink-blue" strokeWidth={2.5} />
@@ -570,7 +570,7 @@ export default function AdminTicketDetailPage() {
                 ))}
               </ul>
             )}
-            <div className="flex flex-wrap gap-x-6 gap-y-1 border-t-2 border-dashed border-muted pt-3 text-base text-pencil/70">
+            <div className="flex flex-wrap gap-x-6 gap-y-1 border-t-2 border-dashed border-muted pt-3 text-lg text-pencil/70">
               <span>Author: {currentTicket.author?.name ?? '—'}</span>
               <span>Submitted {formatDate(currentTicket.createdAt)}</span>
             </div>
@@ -580,7 +580,7 @@ export default function AdminTicketDetailPage() {
             <div className="flex items-center gap-2">
               <MessageCircle aria-hidden="true" className="h-6 w-6 text-ink-blue" strokeWidth={2.5} />
               <h2 id="admin-conversation-heading" className="font-heading text-2xl font-bold text-pencil">
-                Conversation <span className="text-pencil/60">({currentTicket.responses?.length ?? 0})</span>
+                Conversation <span className="text-pencil/70">({currentTicket.responses?.length ?? 0})</span>
               </h2>
             </div>
             <Conversation ticket={currentTicket} />
@@ -609,7 +609,7 @@ export default function AdminTicketDetailPage() {
                   <li key={`${note._id ?? note.createdAt}-${index}`} className="border-2 border-dashed border-accent/70 bg-white p-4" style={{ borderRadius: wobblyAlt }}>
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="font-body text-lg font-bold text-pencil">{note.author?.name ?? 'Admin'}</span>
-                      <time dateTime={note.createdAt} className="text-base text-pencil/70">{timeAgo(note.createdAt)}</time>
+                      <time dateTime={note.createdAt} className="text-lg text-pencil/70">{timeAgo(note.createdAt)}</time>
                     </div>
                     <p className="mt-2 whitespace-pre-wrap break-words text-lg leading-relaxed text-pencil">{note.body}</p>
                   </li>
@@ -634,7 +634,7 @@ export default function AdminTicketDetailPage() {
               </Button>
             </form>
           </Card>
-        </main>
+        </section>
 
         <aside className="min-w-0 space-y-5 lg:sticky lg:top-24">
           <BookAuthorPanel ticket={currentTicket} />
@@ -666,7 +666,7 @@ export default function AdminTicketDetailPage() {
                 {TICKET_PRIORITIES.map((priority) => <option key={priority}>{priority}</option>)}
               </Select>
               {currentTicket.aiPriority && (
-                <div className="flex flex-wrap items-center gap-2 text-base">
+                <div className="flex flex-wrap items-center gap-2 text-lg">
                   <span className="text-pencil/70">AI suggested: {currentTicket.aiPriority}</span>
                   {priorityOverridden && <SectionTag className="border-accent bg-white text-[#b91c1c]">Overridden</SectionTag>}
                   {priorityOverridden && (
@@ -688,7 +688,7 @@ export default function AdminTicketDetailPage() {
                 {TICKET_CATEGORIES.map((category) => <option key={category}>{category}</option>)}
               </Select>
               {currentTicket.aiCategory && (
-                <div className="flex flex-wrap items-center gap-2 text-base">
+                <div className="flex flex-wrap items-center gap-2 text-lg">
                   <span className="text-pencil/70">AI suggested: {currentTicket.aiCategory}</span>
                   {categoryOverridden && <SectionTag className="border-accent bg-white text-[#b91c1c]">Overridden</SectionTag>}
                   {categoryOverridden && (
@@ -701,7 +701,7 @@ export default function AdminTicketDetailPage() {
             </div>
 
             <div className="space-y-3 border-t-2 border-dashed border-muted pt-4">
-              <p className="text-base text-pencil/70">
+              <p className="text-lg text-pencil/70">
                 Assigned to:{' '}
                 <span className="font-bold text-pencil">{currentTicket.assignedTo?.name ?? 'Unassigned'}</span>
               </p>
@@ -720,7 +720,7 @@ export default function AdminTicketDetailPage() {
 
             {(currentTicket.aiStatus === 'failed' || currentTicket.aiStatus === 'skipped') && (
               <div className="space-y-3 border-t-2 border-dashed border-muted pt-4">
-                <p className="text-base leading-relaxed text-pencil/70">
+                <p className="text-lg leading-relaxed text-pencil/70">
                   {currentTicket.aiPriorityReason || 'AI classification is unavailable; rule-based values are shown.'}
                 </p>
                 <Button type="button" variant="ghost" onClick={handleReclassify} loading={reclassifying} disabled={reclassifying} className="w-full">
@@ -730,7 +730,7 @@ export default function AdminTicketDetailPage() {
               </div>
             )}
             {currentTicket.aiPriorityReason && currentTicket.aiStatus === 'done' && (
-              <p className="border-t-2 border-dashed border-muted pt-4 text-base leading-relaxed text-pencil/70">
+              <p className="border-t-2 border-dashed border-muted pt-4 text-lg leading-relaxed text-pencil/70">
                 <span className="font-bold text-pencil">AI priority reasoning:</span> {currentTicket.aiPriorityReason}
               </p>
             )}

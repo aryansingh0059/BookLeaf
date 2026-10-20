@@ -100,7 +100,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="grid h-12 w-12 shrink-0 place-items-center border-2 border-dashed border-pencil bg-white text-pencil hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/20"
+            className="grid h-12 w-12 shrink-0 place-items-center border-2 border-dashed border-pencil bg-white text-pencil hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/40"
             style={{ borderRadius: wobblyMd }}
           >
             <X aria-hidden="true" className="h-6 w-6" strokeWidth={2.5} />

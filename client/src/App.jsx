@@ -5,15 +5,22 @@ import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import { Navbar } from './components/Navbar.jsx';
 import { ToastProvider } from './components/ui/ToastProvider.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import MyBooksPage from './pages/author/MyBooksPage.jsx';
-import MyTicketsPage from './pages/author/MyTicketsPage.jsx';
-import SubmitQueryPage from './pages/author/SubmitQueryPage.jsx';
-import AdminDashboardPage from './pages/admin/AdminDashboardPage.jsx';
-import AdminTicketDetailPage from './pages/admin/AdminTicketDetailPage.jsx';
-import NotFoundPage from './pages/NotFoundPage.jsx';
-
+const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
+const MyBooksPage = lazy(() => import('./pages/author/MyBooksPage.jsx'));
+const MyTicketsPage = lazy(() => import('./pages/author/MyTicketsPage.jsx'));
+const SubmitQueryPage = lazy(() => import('./pages/author/SubmitQueryPage.jsx'));
+const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage.jsx'));
+const AdminTicketDetailPage = lazy(() => import('./pages/admin/AdminTicketDetailPage.jsx'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 const UiKitPage = lazy(() => import('./pages/dev/UiKitPage.jsx'));
+
+function RouteLoading() {
+  return (
+    <div id="main-content" tabIndex={-1} role="status" aria-live="polite" className="p-8 text-center text-lg text-pencil focus-visible:outline-none">
+      Loading page…
+    </div>
+  );
+}
 
 function RootRedirect() {
   const { user } = useAuth();
@@ -28,7 +35,7 @@ function AppShell({ children }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-[calc(100vh-4rem)] px-3 py-6 md:px-6 md:py-8">
+      <main id="main-content" tabIndex={-1} className="min-h-[calc(100vh-4rem)] px-3 py-6 focus-visible:outline-none md:px-6 md:py-8">
         {/* Admin tables need the extra width; author pages stay within the design system's max-w-5xl. */}
         <div className={`mx-auto w-full ${isAdmin ? 'max-w-7xl' : 'max-w-5xl'}`}>
           {children}
@@ -43,6 +50,12 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <ToastProvider>
+          <a
+            href="#main-content"
+            className="sr-only z-[300] border-2 border-pencil bg-white p-3 font-body text-lg font-bold text-pencil focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:outline-none focus:ring-2 focus:ring-ink-blue"
+          >
+            Skip to main content
+          </a>
           <Toaster
             position="top-right"
             toastOptions={{
@@ -57,51 +70,51 @@ function App() {
               error: { iconTheme: { primary: '#ef4444', secondary: '#fff' } },
             }}
           />
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={<RootRedirect />} />
-            <Route
-              path="/ui-kit"
-              element={import.meta.env.DEV
-                ? <Suspense fallback={<div className="p-8 text-lg">Loading UI kit…</div>}><UiKitPage /></Suspense>
-                : <Navigate to="/" replace />}
-            />
+          <Suspense fallback={<RouteLoading />}>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/" element={<RootRedirect />} />
+              <Route
+                path="/ui-kit"
+                element={import.meta.env.DEV ? <UiKitPage /> : <Navigate to="/" replace />}
+              />
 
-            {/* Author routes */}
-            <Route
-              path="/author/*"
-              element={
-                <ProtectedRoute role="author">
-                  <AppShell>
-                    <Routes>
-                      <Route path="books" element={<MyBooksPage />} />
-                      <Route path="tickets" element={<MyTicketsPage />} />
-                      <Route path="tickets/new" element={<SubmitQueryPage />} />
-                      <Route path="*" element={<Navigate to="/author/books" replace />} />
-                    </Routes>
-                  </AppShell>
-                </ProtectedRoute>
-              }
-            />
+              {/* Author routes */}
+              <Route
+                path="/author/*"
+                element={
+                  <ProtectedRoute role="author">
+                    <AppShell>
+                      <Routes>
+                        <Route path="books" element={<MyBooksPage />} />
+                        <Route path="tickets" element={<MyTicketsPage />} />
+                        <Route path="tickets/new" element={<SubmitQueryPage />} />
+                        <Route path="*" element={<Navigate to="/author/books" replace />} />
+                      </Routes>
+                    </AppShell>
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Admin routes */}
-            <Route
-              path="/admin/*"
-              element={
-                <ProtectedRoute role="admin">
-                  <AppShell>
-                    <Routes>
-                      <Route path="" element={<AdminDashboardPage />} />
-                      <Route path="tickets/:id" element={<AdminTicketDetailPage />} />
-                      <Route path="*" element={<Navigate to="/admin" replace />} />
-                    </Routes>
-                  </AppShell>
-                </ProtectedRoute>
-              }
-            />
+              {/* Admin routes */}
+              <Route
+                path="/admin/*"
+                element={
+                  <ProtectedRoute role="admin">
+                    <AppShell>
+                      <Routes>
+                        <Route path="" element={<AdminDashboardPage />} />
+                        <Route path="tickets/:id" element={<AdminTicketDetailPage />} />
+                        <Route path="*" element={<Navigate to="/admin" replace />} />
+                      </Routes>
+                    </AppShell>
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </Suspense>
         </ToastProvider>
       </BrowserRouter>
     </AuthProvider>

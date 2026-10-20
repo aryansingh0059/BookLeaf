@@ -68,13 +68,13 @@ function TicketDetailPanel({ ticket, onClose, onUpdated, hasNewReply }) {
             <X aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
           </Button>
         </div>
-        <p className="text-base text-pencil/70">Opened {timeAgo(ticket.createdAt)}</p>
+        <p className="text-lg text-pencil/70">Opened {timeAgo(ticket.createdAt)}</p>
       </Card>
 
       <div className="space-y-3">
         <h3 className="font-heading text-2xl font-bold text-pencil">Your query</h3>
         <Card className="space-y-3 p-5">
-          <p className="text-base font-bold text-pencil/70">You · {timeAgo(ticket.createdAt)}</p>
+          <p className="text-lg font-bold text-pencil/70">You · {timeAgo(ticket.createdAt)}</p>
           <p className="whitespace-pre-wrap break-words text-lg leading-relaxed text-pencil">{ticket.description}</p>
           {ticket.attachments?.length > 0 && (
             <ul aria-label="Attachments" className="flex flex-wrap gap-2 border-t-2 border-dashed border-muted pt-3">
@@ -117,7 +117,7 @@ function TicketDetailPanel({ ticket, onClose, onUpdated, hasNewReply }) {
                       <p className="font-body text-lg font-bold text-pencil">
                         {fromTeam ? 'BookLeaf Team' : (response.author?.name ?? 'You')}
                       </p>
-                      <time dateTime={response.createdAt} className="text-base text-pencil/70">
+                      <time dateTime={response.createdAt} className="text-lg text-pencil/70">
                         {timeAgo(response.createdAt)}
                       </time>
                     </div>
@@ -175,7 +175,7 @@ function TicketListItem({ ticket, selected, hasNewReply, onSelect }) {
         <span className="w-full break-words text-left text-lg leading-snug">{ticket.subject}</span>
         <span className="flex w-full flex-wrap items-center justify-between gap-2">
           <StatusBadge status={ticket.status} />
-          <time dateTime={ticket.createdAt} className="text-base text-pencil/70">{timeAgo(ticket.createdAt)}</time>
+          <time dateTime={ticket.createdAt} className="text-lg text-pencil/70">{timeAgo(ticket.createdAt)}</time>
         </span>
       </Button>
     </Card>
@@ -184,7 +184,7 @@ function TicketListItem({ ticket, selected, hasNewReply, onSelect }) {
 
 function TicketListSkeleton() {
   return (
-    <div className="space-y-3" aria-label="Loading tickets">
+    <div role="status" aria-live="polite" className="space-y-3" aria-label="Loading tickets">
       {Array.from({ length: 4 }, (_, index) => (
         <Card key={index} className="space-y-3 p-4">
           <Skeleton lines={2} />
@@ -367,7 +367,7 @@ export default function MyTicketsPage() {
         {newReplyIds.size > 0 ? 'A new support reply has arrived.' : ''}
       </div>
       {!selected && tickets.length > 0 && (
-        <p className="flex items-center gap-2 text-base text-pencil/70">
+        <p className="flex items-center gap-2 text-lg text-pencil/70">
           <ArrowUpRight aria-hidden="true" className="h-4 w-4" strokeWidth={2.5} />
           Select a ticket to read the conversation.
         </p>

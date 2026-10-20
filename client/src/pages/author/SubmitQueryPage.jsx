@@ -126,7 +126,7 @@ export default function SubmitQueryPage() {
               maxLength={MAX_SUBJECT}
               error={errors.subject}
             />
-            <p className="text-right text-base text-pencil/70">
+            <p className="text-right text-lg text-pencil/70">
               {subject.length}/{MAX_SUBJECT}
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function SubmitQueryPage() {
               helperText={`Minimum 10 characters; maximum ${MAX_DESC.toLocaleString('en-IN')} characters.`}
               error={errors.description}
             />
-            <p className="text-right text-base text-pencil/70">
+            <p className="text-right text-lg text-pencil/70">
               {description.length}/{MAX_DESC.toLocaleString('en-IN')}
             </p>
           </div>
@@ -181,7 +181,7 @@ export default function SubmitQueryPage() {
                 <Paperclip aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
                 Choose files
               </Button>
-              <p className="text-base leading-relaxed text-pencil/70">
+              <p className="text-lg leading-relaxed text-pencil/70">
                 Attachment names are recorded for reference; file upload is UI-only.
               </p>
             </div>
