@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Legacy component CSS below intentionally remains during the phased redesign. */
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────── */
 :root {
@@ -44,7 +48,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; }
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Patrick Hand', cursive;
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
@@ -284,7 +288,7 @@ img { max-width: 100%; }
 .badge-ai-done { background: var(--color-success-dim); color: var(--color-success); }
 .badge-ai-rules { background: var(--color-warning-dim); color: var(--color-warning); cursor: help; }
 .badge-ai-pending { background: var(--color-purple-dim); color: var(--color-purple); }
-.badge-overdue { background: var(--color-danger-dim); color: var(--color-danger); animation: pulse 2s infinite; }
+.badge-overdue { background: var(--color-danger-dim); color: var(--color-danger); }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
 /* ─── Login Page ─────────────────────────────────────────────────────────── */
@@ -392,7 +396,7 @@ img { max-width: 100%; }
 .ticket-subject { font-weight: 500; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ticket-meta { font-size: 0.8rem; color: var(--color-text-2); flex-shrink: 0; }
 .ticket-badges { display: flex; gap: 0.4rem; flex-shrink: 0; align-items: center; }
-.new-reply-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); animation: pulse 1.5s infinite; flex-shrink: 0; }
+.new-reply-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary); flex-shrink: 0; }
 
 /* ─── Ticket detail ──────────────────────────────────────────────────────── */
 .ticket-detail {
@@ -479,7 +483,6 @@ img { max-width: 100%; }
   border: 2px solid var(--color-bg-4);
   border-top-color: var(--color-primary);
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
   flex-shrink: 0;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -633,3 +636,25 @@ img { max-width: 100%; }
 .dialog h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
 .dialog p { color: var(--color-text-2); font-size: 0.9rem; margin-bottom: 1.5rem; }
 .dialog-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+/* Phase 1 foundation overrides; legacy component styles are restyled later. */
+body {
+  font-family: 'Patrick Hand', cursive;
+  color: #2d2d2d;
+  background-color: #fdfbf7;
+  background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 24px 24px;
+}
+
+:is(input, textarea, select, button, a, [tabindex]):focus-visible {
+  outline: none;
+  border-color: #2d5da1;
+  box-shadow: 0 0 0 2px rgb(45 93 161 / 20%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .badge-overdue { animation: pulse 2s infinite; }
+  .new-reply-dot { animation: pulse 1.5s infinite; }
+  .spinner { animation: spin 0.7s linear infinite; }
+}
