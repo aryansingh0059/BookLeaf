@@ -15,8 +15,8 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().min(1).default('7d'),
   CLIENT_ORIGIN: z.string().url('CLIENT_ORIGIN must be a valid URL'),
   GROQ_API_KEY: z.string().optional().default(''),
-  GROQ_CLASSIFY_MODEL: z.string().min(1).default('llama-3.1-8b-instant'),
-  GROQ_DRAFT_MODEL: z.string().min(1).default('llama-3.3-70b-versatile'),
+  GROQ_CLASSIFY_MODEL: z.string().min(1).default('openai/gpt-oss-20b'),
+  GROQ_DRAFT_MODEL: z.string().min(1).default('openai/gpt-oss-120b'),
   AI_TIMEOUT_MS: z.coerce.number().int().positive().default(15000),
 });
 
