@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
@@ -11,6 +11,7 @@ import MyTicketsPage from './pages/author/MyTicketsPage.jsx';
 import SubmitQueryPage from './pages/author/SubmitQueryPage.jsx';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage.jsx';
 import AdminTicketDetailPage from './pages/admin/AdminTicketDetailPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 const UiKitPage = lazy(() => import('./pages/dev/UiKitPage.jsx'));
 
@@ -21,10 +22,18 @@ function RootRedirect() {
 }
 
 function AppShell({ children }) {
+  const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith('/admin');
+
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <main className="min-h-[calc(100vh-4rem)] px-3 py-6 md:px-6 md:py-8">
+        {/* Admin tables need the extra width; author pages stay within the design system's max-w-5xl. */}
+        <div className={`mx-auto w-full ${isAdmin ? 'max-w-7xl' : 'max-w-5xl'}`}>
+          {children}
+        </div>
+      </main>
     </>
   );
 }
@@ -91,7 +100,7 @@ function App() {
               }
             />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </ToastProvider>
       </BrowserRouter>
