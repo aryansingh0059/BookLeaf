@@ -9,7 +9,6 @@ export { SectionTag } from './SectionTag.jsx';
 export { Select } from './Select.jsx';
 export { Skeleton } from './Skeleton.jsx';
 export { Spinner } from './Spinner.jsx';
-export { SquiggleUnderline } from './SquiggleUnderline.jsx';
 export { Textarea } from './Textarea.jsx';
 export { Toast } from './Toast.jsx';
 export { ToastProvider } from './ToastProvider.jsx';

@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import { Navbar } from './components/Navbar.jsx';
@@ -12,7 +11,6 @@ const SubmitQueryPage = lazy(() => import('./pages/author/SubmitQueryPage.jsx'))
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage.jsx'));
 const AdminTicketDetailPage = lazy(() => import('./pages/admin/AdminTicketDetailPage.jsx'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
-const UiKitPage = lazy(() => import('./pages/dev/UiKitPage.jsx'));
 
 function RouteLoading() {
   return (
@@ -56,28 +54,10 @@ function App() {
           >
             Skip to main content
           </a>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              style: {
-                background: '#1a1e28',
-                color: '#e8eaf0',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '10px',
-                fontSize: '0.875rem',
-              },
-              success: { iconTheme: { primary: '#10b981', secondary: '#fff' } },
-              error: { iconTheme: { primary: '#ef4444', secondary: '#fff' } },
-            }}
-          />
           <Suspense fallback={<RouteLoading />}>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<RootRedirect />} />
-              <Route
-                path="/ui-kit"
-                element={import.meta.env.DEV ? <UiKitPage /> : <Navigate to="/" replace />}
-              />
 
               {/* Author routes */}
               <Route
