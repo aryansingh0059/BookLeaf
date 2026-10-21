@@ -9,8 +9,8 @@ import { wobbly } from '../theme/wobbly.js';
 
 const demoAccounts = [
   { label: 'Admin', email: 'admin@bookleaf.com', password: 'Admin@123' },
-  { label: 'Priya Sharma', email: 'priya.sharma@email.com', password: 'Author@123' },
-  { label: 'Ananya Reddy', email: 'ananya.reddy@email.com', password: 'Author@123' },
+  { label: 'Priya (author)', email: 'priya.sharma@email.com', password: 'Author@123' },
+  { label: 'Ananya (author)', email: 'ananya.reddy@email.com', password: 'Author@123' },
 ];
 
 /**
@@ -53,35 +53,34 @@ export default function LoginPage() {
   }
 
   return (
-    <main id="main-content" tabIndex={-1} className="flex min-h-screen items-center justify-center px-4 py-10 text-pencil focus-visible:outline-none">
-      <Card decoration="tack" className="w-full max-w-xl p-6 pt-10 sm:p-10 sm:pt-12">
-        <div className="mb-4 flex justify-center">
+    <main id="main-content" tabIndex={-1} className="flex min-h-screen items-center justify-center px-3 py-3 text-pencil focus-visible:outline-none sm:px-4 sm:py-4">
+      <Card decoration="tack" className="w-full max-w-lg p-6 md:p-8">
+        <div className="mb-2 flex justify-center">
           <span
             aria-hidden="true"
-            className="grid h-16 w-16 place-items-center border-2 border-dashed border-ink-blue bg-white text-ink-blue"
+            className="grid h-10 w-10 place-items-center border-2 border-dashed border-ink-blue bg-white text-ink-blue"
             style={{ borderRadius: wobbly }}
           >
-            <BookOpen className="h-8 w-8" strokeWidth={2.5} />
+            <BookOpen className="h-5 w-5" strokeWidth={2.5} />
           </span>
         </div>
-        <p className="mb-1 text-center font-body text-lg font-bold text-ink-blue">Author &amp; Admin Support System</p>
-        <h1 className="text-center font-heading text-4xl font-bold leading-tight md:text-5xl">
+        <p className="mb-0.5 text-center font-body text-base font-bold text-ink-blue">Author &amp; Admin Support System</p>
+        <h1 className="text-center font-heading text-3xl font-bold leading-tight md:text-4xl">
           Welcome back<span className="login-mark inline-block">!</span>
         </h1>
-        <p className="mt-2 text-center text-lg leading-relaxed">Sign in to your BookLeaf portal.</p>
 
         {error && (
-          <div role="alert" className="mt-6 flex items-start gap-3 border-2 border-accent bg-white p-3 text-lg leading-relaxed text-[#b91c1c]" style={{ borderRadius: wobbly }}>
+          <div role="alert" className="mt-3 flex items-start gap-3 border-2 border-accent bg-white p-3 text-lg leading-relaxed text-[#b91c1c]" style={{ borderRadius: wobbly }}>
             <AlertCircle aria-hidden="true" className="mt-1 h-5 w-5 shrink-0" strokeWidth={2.5} />
             <span>{error}</span>
           </div>
         )}
 
-        <div className="relative mt-8">
-          <svg aria-hidden="true" viewBox="0 0 140 90" className="pointer-events-none absolute -left-24 top-16 hidden h-24 w-32 text-accent md:block">
+        <div className="relative mt-4">
+          <svg aria-hidden="true" viewBox="0 0 140 90" className="pointer-events-none absolute -left-6 bottom-0 hidden h-20 w-20 text-accent md:block">
             <path d="M8 8c10 26 43 48 102 55m-20-16 22 18-25 7" fill="none" stroke="currentColor" strokeWidth="3" strokeDasharray="7 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <Input
               id="email"
               label="Email address"
@@ -90,6 +89,7 @@ export default function LoginPage() {
               onChange={(event) => setEmail(event.target.value)}
               placeholder="you@email.com"
               autoComplete="email"
+              className="!font-mono !text-base"
               autoFocus
             />
             <Input
@@ -100,34 +100,35 @@ export default function LoginPage() {
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Your password"
               autoComplete="current-password"
+              className="!font-mono !text-base"
             />
-            <Button type="submit" loading={loading} className="w-full text-2xl">
+            <Button type="submit" loading={loading} className="w-full text-xl">
               Sign In
             </Button>
           </form>
         </div>
 
-        <aside className="mt-8 border-2 border-pencil bg-postit p-4 shadow-hard-sm" style={{ borderRadius: wobbly }}>
-          <h2 className="mb-2 flex items-center gap-2 font-heading text-2xl font-bold">
+        <Card tone="postit" padding="p-3" className="mt-4" aria-labelledby="demo-credentials-heading">
+          <h2 id="demo-credentials-heading" className="mb-1.5 flex items-center gap-2 font-heading text-lg font-bold">
             <KeyRound aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
             Demo credentials
           </h2>
-          <div className="space-y-2">
+          <div className="space-y-1">
             {demoAccounts.map((account) => (
               <Button
                 key={account.email}
                 variant="ghost"
                 type="button"
                 onClick={(event) => fillDemo(event, account)}
-                className="w-full justify-start whitespace-normal border-pencil/50 bg-white/70 px-3 py-2 text-left font-body text-lg font-normal"
+                className="w-full justify-start whitespace-normal border-pencil/50 bg-white/70 px-2 py-1 text-left font-body text-sm font-normal"
               >
                 <Leaf aria-hidden="true" className="h-4 w-4 shrink-0 text-ink-blue" strokeWidth={2.5} />
-                <span className="shrink-0 font-bold">{account.label}</span>
-                <span className="min-w-0 break-all">{account.email} / {account.password}</span>
+                <span className="shrink-0 font-bold">{account.label}:</span>
+                <span className="min-w-0 break-all font-mono text-xs leading-5 [user-select:text]">{account.email} / {account.password}</span>
               </Button>
             ))}
           </div>
-        </aside>
+        </Card>
       </Card>
     </main>
   );
