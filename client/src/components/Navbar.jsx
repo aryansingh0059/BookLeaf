@@ -80,7 +80,7 @@ function ConnectionIndicator() {
 
 function NavItems({ isAdmin, onNavigate }) {
   const links = isAdmin
-    ? [{ to: '/admin', label: 'Dashboard', end: true }, { to: '/admin/tickets', label: 'Tickets' }]
+    ? [{ to: '/admin', label: 'Ticket Queue', end: true }]
     : [
         { to: '/author/books', label: 'My Books' },
         { to: '/author/tickets', label: 'My Tickets' },
@@ -93,13 +93,13 @@ function NavItems({ isAdmin, onNavigate }) {
       to={to}
       end={end}
       onClick={onNavigate}
-      className={({ isActive }) => `relative inline-flex min-h-12 items-center px-3 font-body text-xl font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/40 ${isActive ? 'text-pencil' : 'text-pencil/70 hover:text-pencil'}`}
+      className={({ isActive }) => `relative inline-flex min-h-12 cursor-pointer items-center px-3 font-body text-xl font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-blue/40 ${isActive ? 'text-pencil' : 'text-pencil/70 hover:text-pencil'}`}
     >
       {({ isActive }) => (
         <>
           {label}
           {isActive && (
-            <svg aria-hidden="true" viewBox="0 0 120 10" preserveAspectRatio="none" className="absolute inset-x-2 bottom-1 h-2 w-[calc(100%-1rem)]">
+            <svg aria-hidden="true" viewBox="0 0 120 10" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-2 bottom-1 h-2 w-[calc(100%-1rem)]">
               <path d="M2 6c10-5 16 3 26 0s16-3 26 0 16 3 26-1 16-3 26 1 12 0 14-1" fill="none" stroke={isAdmin ? '#ff4d4d' : '#2d5da1'} strokeWidth="3" strokeLinecap="round" />
             </svg>
           )}
