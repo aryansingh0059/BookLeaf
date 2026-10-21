@@ -1,7 +1,7 @@
 export class ApiError extends Error {
   constructor(statusCode, code, message, details) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
     this.statusCode = statusCode;
     this.code = code;
     this.details = details;
@@ -41,9 +41,9 @@ export class ApiError extends Error {
 }
 
 export class AIUnavailableError extends Error {
-  constructor(message = 'AI service is unavailable', cause) {
+  constructor(message = "AI service is unavailable", cause) {
     super(message);
-    this.name = 'AIUnavailableError';
+    this.name = "AIUnavailableError";
     this.cause = cause;
   }
 }

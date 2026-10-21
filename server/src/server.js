@@ -1,11 +1,11 @@
-import http from 'node:http';
-import { Server as SocketIOServer } from 'socket.io';
-import jwt from 'jsonwebtoken';
-import { env } from './config/env.js';
-import { connectDb } from './config/db.js';
-import { createApp } from './app.js';
-import { logger } from './utils/logger.js';
-import { setIo } from './sockets/emitters.js';
+import http from "node:http";
+import { Server as SocketIOServer } from "socket.io";
+import jwt from "jsonwebtoken";
+import { env } from "./config/env.js";
+import { connectDb } from "./config/db.js";
+import { createApp } from "./app.js";
+import { logger } from "./utils/logger.js";
+import { setIo } from "./sockets/emitters.js";
 
 const app = createApp();
 const httpServer = http.createServer(app);
@@ -24,7 +24,7 @@ const io = new SocketIOServer(httpServer, {
 io.use((socket, next) => {
   const token = socket.handshake.auth?.token;
   if (!token) {
-    return next(new Error('Authentication required'));
+    return next(new Error("Authentication required"));
   }
   try {
     const payload = jwt.verify(token, env.JWT_SECRET);
@@ -32,23 +32,23 @@ io.use((socket, next) => {
     socket.data.role = payload.role;
     next();
   } catch {
-    next(new Error('Invalid or expired token'));
+    next(new Error("Invalid or expired token"));
   }
 });
 
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
   const { userId, role } = socket.data;
-  logger.debug({ userId, role }, 'Socket connected');
+  logger.debug({ userId, role }, "Socket connected");
 
-  if (role === 'admin') {
-    socket.join('admins');
-  } else if (role === 'author') {
+  if (role === "admin") {
+    socket.join("admins");
+  } else if (role === "author") {
     // Authors only join their own room
     socket.join(`user:${userId}`);
   }
 
-  socket.on('disconnect', () => {
-    logger.debug({ userId, role }, 'Socket disconnected');
+  socket.on("disconnect", () => {
+    logger.debug({ userId, role }, "Socket disconnected");
   });
 });
 
@@ -58,10 +58,10 @@ setIo(io);
 try {
   await connectDb();
   httpServer.listen(env.PORT, () => {
-    logger.info({ port: env.PORT }, 'BookLeaf API listening');
+    logger.info({ port: env.PORT }, "BookLeaf API listening");
   });
 } catch (err) {
-  logger.error({ err: { message: err.message } }, 'Failed to start server');
+  logger.error({ err: { message: err.message } }, "Failed to start server");
   process.exit(1);
 }
 
@@ -71,7 +71,7 @@ function shutdown() {
   });
 }
 
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
 
 export { httpServer, app };

@@ -1,9 +1,9 @@
-import { wobblyAlt } from '../../theme/wobbly.js';
+import { wobblyAlt } from "../../theme/wobbly.js";
 
 /**
  * Use as a compact post-it label above a section heading.
  */
-export function SectionTag({ children, className = '', ...props }) {
+export function SectionTag({ children, className = "", ...props }) {
   return (
     <span
       {...props}

@@ -1,11 +1,12 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { env } from '../config/env.js';
-import { Author } from '../models/Author.js';
-import { User } from '../models/User.js';
-import { ApiError } from '../utils/ApiError.js';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { env } from "../config/env.js";
+import { Author } from "../models/Author.js";
+import { User } from "../models/User.js";
+import { ApiError } from "../utils/ApiError.js";
 
-const DUMMY_HASH = '$2b$10$CwTycUXWue0Thq9StjUM0uJ8xJ8mQeH1n1n1n1n1n1n1n1n1n1n1e';
+const DUMMY_HASH =
+  "$2b$10$CwTycUXWue0Thq9StjUM0uJ8xJ8mQeH1n1n1n1n1n1n1n1n1n1n1e";
 
 function signToken(user, authorId = null) {
   return jwt.sign(
@@ -36,7 +37,10 @@ export async function login({ email, password }) {
   const matches = await bcrypt.compare(password, hash);
 
   if (!user || !matches) {
-    throw ApiError.unauthorized('INVALID_CREDENTIALS', 'Invalid email or password');
+    throw ApiError.unauthorized(
+      "INVALID_CREDENTIALS",
+      "Invalid email or password",
+    );
   }
 
   let author = null;

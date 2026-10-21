@@ -1,6 +1,6 @@
-import { Inbox } from 'lucide-react';
-import { wobbly } from '../../theme/wobbly.js';
-import { Button } from './Button.jsx';
+import { Inbox } from "lucide-react";
+import { wobbly } from "../../theme/wobbly.js";
+import { Button } from "./Button.jsx";
 
 /**
  * Use when a page has no content; customize the icon, message, and optional action.
@@ -10,10 +10,12 @@ export function EmptyState({
   heading,
   description,
   action,
-  className = '',
+  className = "",
 }) {
   return (
-    <div className={`flex flex-col items-center gap-4 px-6 py-10 text-center ${className}`}>
+    <div
+      className={`flex flex-col items-center gap-4 px-6 py-10 text-center ${className}`}
+    >
       <span
         aria-hidden="true"
         style={{ borderRadius: wobbly }}
@@ -21,11 +23,16 @@ export function EmptyState({
       >
         <Icon className="h-9 w-9" strokeWidth={2.5} />
       </span>
-      {heading && <h2 className="font-heading text-3xl text-pencil">{heading}</h2>}
-      {description && <p className="max-w-xl text-lg leading-relaxed text-pencil/80">{description}</p>}
-      {action && (typeof action === 'string'
-        ? <Button>{action}</Button>
-        : action)}
+      {heading && (
+        <h2 className="font-heading text-3xl text-pencil">{heading}</h2>
+      )}
+      {description && (
+        <p className="max-w-xl text-lg leading-relaxed text-pencil/80">
+          {description}
+        </p>
+      )}
+      {action &&
+        (typeof action === "string" ? <Button>{action}</Button> : action)}
     </div>
   );
 }

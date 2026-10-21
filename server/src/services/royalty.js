@@ -27,11 +27,13 @@ export function royaltyFacts(book) {
   }
 
   const pending = book.royaltyPending ?? 0;
-  const inProduction = !book.mrp || String(book.status).startsWith('In Production');
+  const inProduction =
+    !book.mrp || String(book.status).startsWith("In Production");
   return {
     hasBook: true,
     nextPayoutDate: nextPayoutDate().toISOString().slice(0, 10),
-    belowThreshold: !inProduction && pending > 0 && pending < PAYOUT_THRESHOLD_INR,
+    belowThreshold:
+      !inProduction && pending > 0 && pending < PAYOUT_THRESHOLD_INR,
     neverPaid: !inProduction && pending > 0 && !book.lastRoyaltyPayoutDate,
     inProduction,
     payoutThresholdInr: PAYOUT_THRESHOLD_INR,

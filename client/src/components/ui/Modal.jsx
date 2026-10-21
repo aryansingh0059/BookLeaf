@@ -1,6 +1,6 @@
-import { useEffect, useId, useRef } from 'react';
-import { X } from 'lucide-react';
-import { wobblyMd } from '../../theme/wobbly.js';
+import { useEffect, useId, useRef } from "react";
+import { X } from "lucide-react";
+import { wobblyMd } from "../../theme/wobbly.js";
 
 /**
  * Use for modal content that needs focus containment, Escape handling, and an accessible title.
@@ -12,7 +12,7 @@ export function Modal({
   description,
   children,
   closeOnOverlay = true,
-  className = '',
+  className = "",
 }) {
   const dialogRef = useRef(null);
   const titleId = useId();
@@ -23,19 +23,20 @@ export function Modal({
 
     const previousFocus = document.activeElement;
     const dialog = dialogRef.current;
-    const getFocusable = () => dialog?.querySelectorAll(
-      'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
-    ) ?? [];
+    const getFocusable = () =>
+      dialog?.querySelectorAll(
+        'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
+      ) ?? [];
 
     getFocusable()[0]?.focus();
 
     function onKeyDown(event) {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         event.preventDefault();
         onClose?.();
         return;
       }
-      if (event.key !== 'Tab') return;
+      if (event.key !== "Tab") return;
 
       const focusable = getFocusable();
       if (!focusable.length) {
@@ -62,11 +63,11 @@ export function Modal({
       }
     }
 
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('focusin', onFocusIn);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("focusin", onFocusIn);
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('focusin', onFocusIn);
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("focusin", onFocusIn);
       if (previousFocus instanceof HTMLElement) previousFocus.focus();
     };
   }, [open, onClose]);
@@ -90,11 +91,20 @@ export function Modal({
         style={{ borderRadius: wobblyMd }}
         className={`relative my-auto w-full max-w-lg border-2 border-pencil bg-white p-6 pt-8 text-pencil shadow-hard-lg focus-visible:outline-none ${className}`}
       >
-        <span aria-hidden="true" className="absolute left-1/2 top-0 h-4 w-24 -translate-x-1/2 -translate-y-1/2 -rotate-2 bg-muted/90" />
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 top-0 h-4 w-24 -translate-x-1/2 -translate-y-1/2 -rotate-2 bg-muted/90"
+        />
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
-            <h2 id={titleId} className="font-heading text-3xl leading-tight">{title}</h2>
-            {description && <p id={descriptionId} className="mt-2 text-lg leading-relaxed">{description}</p>}
+            <h2 id={titleId} className="font-heading text-3xl leading-tight">
+              {title}
+            </h2>
+            {description && (
+              <p id={descriptionId} className="mt-2 text-lg leading-relaxed">
+                {description}
+              </p>
+            )}
           </div>
           <button
             type="button"

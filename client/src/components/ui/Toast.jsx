@@ -1,10 +1,10 @@
-import { CircleCheck, CircleX, Info, X } from 'lucide-react';
-import { wobblyMd } from '../../theme/wobbly.js';
+import { CircleCheck, CircleX, Info, X } from "lucide-react";
+import { wobblyMd } from "../../theme/wobbly.js";
 
 /**
  * Use from ToastProvider; controlled rendering is useful for isolated component previews.
  */
-export function Toast({ message, type = 'info', onDismiss }) {
+export function Toast({ message, type = "info", onDismiss }) {
   const icons = { success: CircleCheck, error: CircleX, info: Info };
   const Icon = icons[type] ?? icons.info;
 
@@ -15,7 +15,11 @@ export function Toast({ message, type = 'info', onDismiss }) {
       style={{ borderRadius: wobblyMd }}
       className="fixed right-4 top-4 z-[200] flex max-w-sm items-start gap-3 border-2 border-pencil bg-postit p-4 text-lg leading-relaxed text-pencil shadow-hard"
     >
-      <Icon aria-hidden="true" className="mt-1 h-5 w-5 shrink-0" strokeWidth={2.5} />
+      <Icon
+        aria-hidden="true"
+        className="mt-1 h-5 w-5 shrink-0"
+        strokeWidth={2.5}
+      />
       <span className="flex-1">{message}</span>
       {onDismiss && (
         <button

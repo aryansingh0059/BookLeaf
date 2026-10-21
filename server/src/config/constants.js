@@ -1,25 +1,30 @@
 export const ROLES = Object.freeze({
-  AUTHOR: 'author',
-  ADMIN: 'admin',
+  AUTHOR: "author",
+  ADMIN: "admin",
 });
 
 export const TICKET_STATUSES = Object.freeze([
-  'Open',
-  'In Progress',
-  'Resolved',
-  'Closed',
+  "Open",
+  "In Progress",
+  "Resolved",
+  "Closed",
 ]);
 
 export const TICKET_CATEGORIES = Object.freeze([
-  'Royalty & Payments',
-  'ISBN & Metadata Issues',
-  'Printing & Quality',
-  'Distribution & Availability',
-  'Book Status & Production Updates',
-  'General Inquiry',
+  "Royalty & Payments",
+  "ISBN & Metadata Issues",
+  "Printing & Quality",
+  "Distribution & Availability",
+  "Book Status & Production Updates",
+  "General Inquiry",
 ]);
 
-export const TICKET_PRIORITIES = Object.freeze(['Critical', 'High', 'Medium', 'Low']);
+export const TICKET_PRIORITIES = Object.freeze([
+  "Critical",
+  "High",
+  "Medium",
+  "Low",
+]);
 
 export const PRIORITY_WEIGHT = Object.freeze({
   Critical: 4,
@@ -28,7 +33,12 @@ export const PRIORITY_WEIGHT = Object.freeze({
   Low: 1,
 });
 
-export const AI_STATUSES = Object.freeze(['pending', 'done', 'failed', 'skipped']);
+export const AI_STATUSES = Object.freeze([
+  "pending",
+  "done",
+  "failed",
+  "skipped",
+]);
 
 export const OVERDUE_HOURS = Object.freeze({
   Critical: 24,

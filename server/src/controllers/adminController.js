@@ -1,6 +1,6 @@
-import { asyncHandler } from '../utils/asyncHandler.js';
-import { AIUnavailableError } from '../utils/ApiError.js';
-import * as ticketService from '../services/ticketService.js';
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { AIUnavailableError } from "../utils/ApiError.js";
+import * as ticketService from "../services/ticketService.js";
 
 export const listTickets = asyncHandler(async (req, res) => {
   const result = await ticketService.listAdminTickets(req.validatedQuery);
@@ -13,7 +13,11 @@ export const getTicket = asyncHandler(async (req, res) => {
 });
 
 export const patchTicket = asyncHandler(async (req, res) => {
-  const ticket = await ticketService.patchAdminTicket(req.user, req.params.id, req.body);
+  const ticket = await ticketService.patchAdminTicket(
+    req.user,
+    req.params.id,
+    req.body,
+  );
   res.json({ data: ticket });
 });
 
@@ -23,7 +27,11 @@ export const assignMe = asyncHandler(async (req, res) => {
 });
 
 export const addNote = asyncHandler(async (req, res) => {
-  const ticket = await ticketService.addInternalNote(req.user, req.params.id, req.body.body);
+  const ticket = await ticketService.addInternalNote(
+    req.user,
+    req.params.id,
+    req.body.body,
+  );
   res.status(201).json({ data: ticket });
 });
 
@@ -32,11 +40,16 @@ export const draftReply = asyncHandler(async (req, res) => {
     const ticket = await ticketService.generateAiDraft(req.params.id);
     res.json({ data: ticket });
   } catch (err) {
-    if (err instanceof AIUnavailableError || err?.name === 'AIUnavailableError') {
+    if (
+      err instanceof AIUnavailableError ||
+      err?.name === "AIUnavailableError"
+    ) {
       return res.status(503).json({
         error: {
-          code: 'AI_UNAVAILABLE',
-          message: err.message || 'AI draft unavailable. Please write a reply manually.',
+          code: "AI_UNAVAILABLE",
+          message:
+            err.message ||
+            "AI draft unavailable. Please write a reply manually.",
         },
       });
     }
@@ -45,7 +58,11 @@ export const draftReply = asyncHandler(async (req, res) => {
 });
 
 export const sendReply = asyncHandler(async (req, res) => {
-  const ticket = await ticketService.addAdminReply(req.user, req.params.id, req.body);
+  const ticket = await ticketService.addAdminReply(
+    req.user,
+    req.params.id,
+    req.body,
+  );
   res.status(201).json({ data: ticket });
 });
 

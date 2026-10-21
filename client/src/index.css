@@ -9,7 +9,7 @@ body {
   background-size: 24px 24px;
   background-position: 24px 24px;
   color: #2d2d2d;
-  font-family: 'Patrick Hand', cursive;
+  font-family: "Patrick Hand", cursive;
   font-size: 18px;
   line-height: 1.5;
 }
@@ -21,24 +21,45 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .login-mark { animation: login-mark 1.5s ease-in-out infinite; }
-  .animate-author-ticket-bounce { animation: author-ticket-bounce 650ms ease-out 1; }
-  .animate-admin-new-ticket { animation: admin-ticket-highlight 1.2s ease-out 3; }
+  .login-mark {
+    animation: login-mark 1.5s ease-in-out infinite;
+  }
+  .animate-author-ticket-bounce {
+    animation: author-ticket-bounce 650ms ease-out 1;
+  }
+  .animate-admin-new-ticket {
+    animation: admin-ticket-highlight 1.2s ease-out 3;
+  }
 }
 
 @keyframes login-mark {
-  0%, 100% { transform: rotate(0); }
-  50% { transform: rotate(12deg); }
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
 }
 
 @keyframes author-ticket-bounce {
-  0%, 100% { transform: rotate(var(--ui-card-tilt, 0deg)) translateY(0); }
-  45% { transform: rotate(var(--ui-card-tilt, 0deg)) translateY(-6px); }
+  0%,
+  100% {
+    transform: rotate(var(--ui-card-tilt, 0deg)) translateY(0);
+  }
+  45% {
+    transform: rotate(var(--ui-card-tilt, 0deg)) translateY(-6px);
+  }
 }
 
 @keyframes admin-ticket-highlight {
-  0%, 100% { background-color: transparent; }
-  45% { background-color: rgb(255 249 196 / 85%); }
+  0%,
+  100% {
+    background-color: transparent;
+  }
+  45% {
+    background-color: rgb(255 249 196 / 85%);
+  }
 }
 
 .ui-card-tilt {

@@ -1,4 +1,4 @@
-import { logger } from '../utils/logger.js';
+import { logger } from "../utils/logger.js";
 
 let ioRef = null;
 
@@ -8,7 +8,8 @@ export function setIo(io) {
 
 function authorSafeTicket(ticket) {
   if (!ticket) return ticket;
-  const plain = typeof ticket.toObject === 'function' ? ticket.toObject() : { ...ticket };
+  const plain =
+    typeof ticket.toObject === "function" ? ticket.toObject() : { ...ticket };
   delete plain.internalNotes;
   delete plain.aiDraft;
   delete plain.aiCategory;
@@ -21,24 +22,28 @@ function authorSafeTicket(ticket) {
 }
 
 export function emitTicketCreated(ticket) {
-  ioRef?.to('admins').emit('ticket:created', ticket);
+  ioRef?.to("admins").emit("ticket:created", ticket);
 }
 
 export function emitTicketUpdated(ticket, authorUserId) {
-  ioRef?.to('admins').emit('ticket:updated', ticket);
+  ioRef?.to("admins").emit("ticket:updated", ticket);
   if (authorUserId) {
-    ioRef?.to(`user:${authorUserId}`).emit('ticket:updated', authorSafeTicket(ticket));
+    ioRef
+      ?.to(`user:${authorUserId}`)
+      .emit("ticket:updated", authorSafeTicket(ticket));
   }
 }
 
 export function emitTicketReply(ticket, authorUserId) {
   if (authorUserId) {
-    ioRef?.to(`user:${authorUserId}`).emit('ticket:reply', authorSafeTicket(ticket));
+    ioRef
+      ?.to(`user:${authorUserId}`)
+      .emit("ticket:reply", authorSafeTicket(ticket));
   }
-  ioRef?.to('admins').emit('ticket:updated', ticket);
+  ioRef?.to("admins").emit("ticket:updated", ticket);
 }
 
 export function emitTicketAiReady(ticket) {
-  ioRef?.to('admins').emit('ticket:ai-ready', ticket);
-  logger.debug({ ticketNumber: ticket.ticketNumber }, 'ticket:ai-ready');
+  ioRef?.to("admins").emit("ticket:ai-ready", ticket);
+  logger.debug({ ticketNumber: ticket.ticketNumber }, "ticket:ai-ready");
 }

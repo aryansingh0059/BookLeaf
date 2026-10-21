@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const authorSchema = new mongoose.Schema(
   {
@@ -12,4 +12,4 @@ const authorSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const Author = mongoose.model('Author', authorSchema);
+export const Author = mongoose.model("Author", authorSchema);

@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export function ProtectedRoute({ children, role }) {
   const { user } = useAuth();
@@ -10,7 +10,9 @@ export function ProtectedRoute({ children, role }) {
 
   if (role && user.role !== role) {
     // Redirect to the appropriate portal if logged in with wrong role
-    return <Navigate to={user.role === 'admin' ? '/admin' : '/author'} replace />;
+    return (
+      <Navigate to={user.role === "admin" ? "/admin" : "/author"} replace />
+    );
   }
 
   return children;

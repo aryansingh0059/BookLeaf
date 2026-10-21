@@ -1,13 +1,13 @@
-import Groq from 'groq-sdk';
-import { env, isAiConfigured } from '../../config/env.js';
-import { logger } from '../../utils/logger.js';
-import { AIUnavailableError } from '../../utils/ApiError.js';
+import Groq from "groq-sdk";
+import { env, isAiConfigured } from "../../config/env.js";
+import { logger } from "../../utils/logger.js";
+import { AIUnavailableError } from "../../utils/ApiError.js";
 
 let groqInstance = null;
 
 function getGroq() {
   if (!isAiConfigured()) {
-    throw new AIUnavailableError('GROQ_API_KEY is not configured');
+    throw new AIUnavailableError("GROQ_API_KEY is not configured");
   }
   if (!groqInstance) {
     groqInstance = new Groq({ apiKey: env.GROQ_API_KEY });
@@ -38,7 +38,7 @@ const circuitBreaker = {
     this.failures += 1;
     if (this.failures >= this.THRESHOLD) {
       this.openedAt = Date.now();
-      logger.warn({ failures: this.failures }, 'AI circuit breaker OPEN');
+      logger.warn({ failures: this.failures }, "AI circuit breaker OPEN");
     }
   },
 };
@@ -59,10 +59,12 @@ function sleep(ms) {
  */
 export async function callGroq(params) {
   if (!isAiConfigured()) {
-    throw new AIUnavailableError('AI is not configured');
+    throw new AIUnavailableError("AI is not configured");
   }
   if (circuitBreaker.isOpen()) {
-    throw new AIUnavailableError('AI circuit breaker is open; retrying after cooldown');
+    throw new AIUnavailableError(
+      "AI circuit breaker is open; retrying after cooldown",
+    );
   }
 
   const groq = getGroq();
@@ -76,7 +78,15 @@ export async function callGroq(params) {
       const completion = await Promise.race([
         groq.chat.completions.create(params),
         new Promise((_, reject) =>
-          setTimeout(() => reject(Object.assign(new Error('AI call timed out'), { code: 'TIMEOUT' })), timeoutMs),
+          setTimeout(
+            () =>
+              reject(
+                Object.assign(new Error("AI call timed out"), {
+                  code: "TIMEOUT",
+                }),
+              ),
+            timeoutMs,
+          ),
         ),
       ]);
 
@@ -88,7 +98,7 @@ export async function callGroq(params) {
           promptTokens: completion.usage?.prompt_tokens,
           completionTokens: completion.usage?.completion_tokens,
         },
-        'Groq call succeeded',
+        "Groq call succeeded",
       );
 
       circuitBreaker.recordSuccess();
@@ -98,11 +108,17 @@ export async function callGroq(params) {
       const latencyMs = Date.now() - start;
       const status = err?.status ?? err?.statusCode ?? 0;
       const isRetryable =
-        err.code === 'TIMEOUT' || status === 429 || status >= 500;
+        err.code === "TIMEOUT" || status === 429 || status >= 500;
 
       logger.warn(
-        { model: params.model, attempt, latencyMs, status, errMessage: err.message },
-        'Groq call failed',
+        {
+          model: params.model,
+          attempt,
+          latencyMs,
+          status,
+          errMessage: err.message,
+        },
+        "Groq call failed",
       );
 
       if (!isRetryable || attempt === maxRetries) {
@@ -110,14 +126,18 @@ export async function callGroq(params) {
       }
 
       // Exponential backoff with jitter; honor Retry-After header
-      const retryAfterMs = err?.headers?.['retry-after']
-        ? parseInt(err.headers['retry-after'], 10) * 1000
+      const retryAfterMs = err?.headers?.["retry-after"]
+        ? parseInt(err.headers["retry-after"], 10) * 1000
         : null;
-      const backoffMs = retryAfterMs ?? (500 * 2 ** attempt + Math.random() * 200);
+      const backoffMs =
+        retryAfterMs ?? 500 * 2 ** attempt + Math.random() * 200;
       await sleep(backoffMs);
     }
   }
 
   circuitBreaker.recordFailure();
-  throw new AIUnavailableError(`Groq call failed after retries: ${lastError?.message}`, lastError);
+  throw new AIUnavailableError(
+    `Groq call failed after retries: ${lastError?.message}`,
+    lastError,
+  );
 }

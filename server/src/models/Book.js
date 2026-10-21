@@ -1,9 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const bookSchema = new mongoose.Schema(
   {
     bookId: { type: String, required: true, unique: true, index: true },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'Author', required: true, index: true },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Author",
+      required: true,
+      index: true,
+    },
     title: { type: String, required: true },
     isbn: { type: String, required: true },
     genre: { type: String, required: true },
@@ -22,4 +27,4 @@ const bookSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const Book = mongoose.model('Book', bookSchema);
+export const Book = mongoose.model("Book", bookSchema);

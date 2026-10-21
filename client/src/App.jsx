@@ -1,20 +1,38 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext.jsx';
-import { ProtectedRoute } from './components/ProtectedRoute.jsx';
-import { Navbar } from './components/Navbar.jsx';
-import { ToastProvider } from './components/ui/ToastProvider.jsx';
-const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
-const MyBooksPage = lazy(() => import('./pages/author/MyBooksPage.jsx'));
-const MyTicketsPage = lazy(() => import('./pages/author/MyTicketsPage.jsx'));
-const SubmitQueryPage = lazy(() => import('./pages/author/SubmitQueryPage.jsx'));
-const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage.jsx'));
-const AdminTicketDetailPage = lazy(() => import('./pages/admin/AdminTicketDetailPage.jsx'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
+import { lazy, Suspense } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
+import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
+import { Navbar } from "./components/Navbar.jsx";
+import { ToastProvider } from "./components/ui/ToastProvider.jsx";
+const LoginPage = lazy(() => import("./pages/LoginPage.jsx"));
+const MyBooksPage = lazy(() => import("./pages/author/MyBooksPage.jsx"));
+const MyTicketsPage = lazy(() => import("./pages/author/MyTicketsPage.jsx"));
+const SubmitQueryPage = lazy(
+  () => import("./pages/author/SubmitQueryPage.jsx"),
+);
+const AdminDashboardPage = lazy(
+  () => import("./pages/admin/AdminDashboardPage.jsx"),
+);
+const AdminTicketDetailPage = lazy(
+  () => import("./pages/admin/AdminTicketDetailPage.jsx"),
+);
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage.jsx"));
 
 function RouteLoading() {
   return (
-    <div id="main-content" tabIndex={-1} role="status" aria-live="polite" className="p-8 text-center text-lg text-pencil focus-visible:outline-none">
+    <div
+      id="main-content"
+      tabIndex={-1}
+      role="status"
+      aria-live="polite"
+      className="p-8 text-center text-lg text-pencil focus-visible:outline-none"
+    >
       Loading page…
     </div>
   );
@@ -23,19 +41,27 @@ function RouteLoading() {
 function RootRedirect() {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
-  return <Navigate to={user.role === 'admin' ? '/admin' : '/author/books'} replace />;
+  return (
+    <Navigate to={user.role === "admin" ? "/admin" : "/author/books"} replace />
+  );
 }
 
 function AppShell({ children }) {
   const { pathname } = useLocation();
-  const isAdmin = pathname.startsWith('/admin');
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <>
       <Navbar />
-      <main id="main-content" tabIndex={-1} className="min-h-[calc(100vh-4rem)] px-3 py-6 focus-visible:outline-none md:px-6 md:py-8">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="min-h-[calc(100vh-4rem)] px-3 py-6 focus-visible:outline-none md:px-6 md:py-8"
+      >
         {/* Admin tables need the extra width; author pages stay within the design system's max-w-5xl. */}
-        <div className={`mx-auto w-full ${isAdmin ? 'max-w-7xl' : 'max-w-5xl'}`}>
+        <div
+          className={`mx-auto w-full ${isAdmin ? "max-w-7xl" : "max-w-5xl"}`}
+        >
           {children}
         </div>
       </main>
@@ -68,8 +94,14 @@ function App() {
                       <Routes>
                         <Route path="books" element={<MyBooksPage />} />
                         <Route path="tickets" element={<MyTicketsPage />} />
-                        <Route path="tickets/new" element={<SubmitQueryPage />} />
-                        <Route path="*" element={<Navigate to="/author/books" replace />} />
+                        <Route
+                          path="tickets/new"
+                          element={<SubmitQueryPage />}
+                        />
+                        <Route
+                          path="*"
+                          element={<Navigate to="/author/books" replace />}
+                        />
                       </Routes>
                     </AppShell>
                   </ProtectedRoute>
@@ -84,8 +116,14 @@ function App() {
                     <AppShell>
                       <Routes>
                         <Route path="" element={<AdminDashboardPage />} />
-                        <Route path="tickets/:id" element={<AdminTicketDetailPage />} />
-                        <Route path="*" element={<Navigate to="/admin" replace />} />
+                        <Route
+                          path="tickets/:id"
+                          element={<AdminTicketDetailPage />}
+                        />
+                        <Route
+                          path="*"
+                          element={<Navigate to="/admin" replace />}
+                        />
                       </Routes>
                     </AppShell>
                   </ProtectedRoute>

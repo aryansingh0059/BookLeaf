@@ -1,6 +1,6 @@
-import { io } from 'socket.io-client';
+import { io } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5000";
 
 let socket = null;
 
@@ -16,11 +16,11 @@ export function connectSocket(token) {
     reconnection: true,
     reconnectionAttempts: 10,
     reconnectionDelay: 1500,
-    transports: ['websocket', 'polling'],
+    transports: ["websocket", "polling"],
   });
 
-  socket.on('connect_error', (err) => {
-    console.warn('[Socket] connection error:', err.message);
+  socket.on("connect_error", (err) => {
+    console.warn("[Socket] connection error:", err.message);
   });
 
   return socket;

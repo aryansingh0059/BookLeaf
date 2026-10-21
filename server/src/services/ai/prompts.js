@@ -1,4 +1,7 @@
-import { TICKET_CATEGORIES, TICKET_PRIORITIES } from '../../config/constants.js';
+import {
+  TICKET_CATEGORIES,
+  TICKET_PRIORITIES,
+} from "../../config/constants.js";
 
 // ---------------------------------------------------------------------------
 // Classification / priority prompt
@@ -81,25 +84,30 @@ ${kbSection}`;
  * Build the user message for draft reply generation.
  * Injects structured facts computed in code (not left to the LLM).
  */
-export function buildDraftUserPrompt({ bookFacts, ticket, recentMessages, fewShotExample }) {
+export function buildDraftUserPrompt({
+  bookFacts,
+  ticket,
+  recentMessages,
+  fewShotExample,
+}) {
   const lines = [];
 
   if (fewShotExample) {
     lines.push(`EXAMPLE RESPONSE FOR SIMILAR QUERY:`);
     lines.push(fewShotExample);
-    lines.push('---');
+    lines.push("---");
   }
 
   lines.push(`BOOK / AUTHOR CONTEXT (verified data, use these exact figures):`);
   lines.push(bookFacts);
-  lines.push('');
+  lines.push("");
 
   if (recentMessages && recentMessages.length > 0) {
-    lines.push('RECENT THREAD (last 3 messages):');
+    lines.push("RECENT THREAD (last 3 messages):");
     for (const msg of recentMessages) {
       lines.push(`[${msg.role.toUpperCase()}]: ${msg.body}`);
     }
-    lines.push('');
+    lines.push("");
   }
 
   lines.push(`<ticket>`);
@@ -108,10 +116,10 @@ export function buildDraftUserPrompt({ bookFacts, ticket, recentMessages, fewSho
   lines.push(`Author message:`);
   lines.push(ticket.description.slice(0, 2000));
   lines.push(`</ticket>`);
-  lines.push('');
+  lines.push("");
   lines.push(
     'Write a professional, empathetic reply from the BookLeaf support team. Use only the facts provided above. Do not invent any figures, dates, or policies. End with "Team BookLeaf Support".',
   );
 
-  return lines.join('\n');
+  return lines.join("\n");
 }

@@ -1,7 +1,7 @@
-import { ZodError } from 'zod';
-import { AIUnavailableError, ApiError } from '../utils/ApiError.js';
-import { logger } from '../utils/logger.js';
-import { env } from '../config/env.js';
+import { ZodError } from "zod";
+import { AIUnavailableError, ApiError } from "../utils/ApiError.js";
+import { logger } from "../utils/logger.js";
+import { env } from "../config/env.js";
 
 export function errorHandler(err, req, res, next) {
   if (res.headersSent) {
@@ -12,10 +12,10 @@ export function errorHandler(err, req, res, next) {
   if (err instanceof ZodError) {
     return res.status(400).json({
       error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Invalid request',
+        code: "VALIDATION_ERROR",
+        message: "Invalid request",
         details: err.issues.map((issue) => ({
-          path: issue.path.join('.'),
+          path: issue.path.join("."),
           message: issue.message,
         })),
       },
@@ -35,27 +35,33 @@ export function errorHandler(err, req, res, next) {
   if (err instanceof AIUnavailableError) {
     return res.status(503).json({
       error: {
-        code: 'AI_UNAVAILABLE',
+        code: "AI_UNAVAILABLE",
         message: err.message,
       },
     });
   }
 
-  if (err?.name === 'CastError') {
+  if (err?.name === "CastError") {
     return res.status(400).json({
-      error: { code: 'INVALID_ID', message: 'Invalid identifier' },
+      error: { code: "INVALID_ID", message: "Invalid identifier" },
     });
   }
 
   logger.error(
-    { err: { name: err.name, message: err.message, stack: env.NODE_ENV === 'development' ? err.stack : undefined } },
-    'Unhandled error',
+    {
+      err: {
+        name: err.name,
+        message: err.message,
+        stack: env.NODE_ENV === "development" ? err.stack : undefined,
+      },
+    },
+    "Unhandled error",
   );
 
   return res.status(500).json({
     error: {
-      code: 'INTERNAL_ERROR',
-      message: 'An unexpected error occurred',
+      code: "INTERNAL_ERROR",
+      message: "An unexpected error occurred",
     },
   });
 }

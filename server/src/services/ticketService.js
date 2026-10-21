@@ -1,19 +1,22 @@
-import mongoose from 'mongoose';
-import { Book } from '../models/Book.js';
-import { Ticket } from '../models/Ticket.js';
-import { User } from '../models/User.js';
-import { nextTicketNumber } from '../models/Counter.js';
-import { ApiError } from '../utils/ApiError.js';
-import { logger } from '../utils/logger.js';
-import { classifyTicketById } from './ai/classifier.js';
-import { PRIORITY_WEIGHT } from '../config/constants.js';
-import { serializeAdminTicket, serializeAuthorTicket } from './ticketSerializer.js';
+import mongoose from "mongoose";
+import { Book } from "../models/Book.js";
+import { Ticket } from "../models/Ticket.js";
+import { User } from "../models/User.js";
+import { nextTicketNumber } from "../models/Counter.js";
+import { ApiError } from "../utils/ApiError.js";
+import { logger } from "../utils/logger.js";
+import { classifyTicketById } from "./ai/classifier.js";
+import { PRIORITY_WEIGHT } from "../config/constants.js";
+import {
+  serializeAdminTicket,
+  serializeAuthorTicket,
+} from "./ticketSerializer.js";
 import {
   emitTicketAiReady,
   emitTicketCreated,
   emitTicketReply,
   emitTicketUpdated,
-} from '../sockets/emitters.js';
+} from "../sockets/emitters.js";
 
 function isTicketRef(value) {
   return /^BL-\d+$/i.test(value) || mongoose.Types.ObjectId.isValid(value);
@@ -21,23 +24,28 @@ function isTicketRef(value) {
 
 async function loadTicket(id) {
   if (!isTicketRef(id)) {
-    throw ApiError.badRequest('INVALID_ID', 'Invalid ticket id');
+    throw ApiError.badRequest("INVALID_ID", "Invalid ticket id");
   }
-  const query = /^BL-\d+$/i.test(id) ? { ticketNumber: id.toUpperCase() } : { _id: id };
+  const query = /^BL-\d+$/i.test(id)
+    ? { ticketNumber: id.toUpperCase() }
+    : { _id: id };
   const ticket = await Ticket.findOne(query)
-    .populate('author')
-    .populate('book')
-    .populate('assignedTo', 'name email role')
-    .populate('responses.author', 'name email role')
-    .populate('internalNotes.author', 'name email role');
+    .populate("author")
+    .populate("book")
+    .populate("assignedTo", "name email role")
+    .populate("responses.author", "name email role")
+    .populate("internalNotes.author", "name email role");
   if (!ticket) {
-    throw ApiError.notFound('TICKET_NOT_FOUND', 'Ticket not found');
+    throw ApiError.notFound("TICKET_NOT_FOUND", "Ticket not found");
   }
   return ticket;
 }
 
 async function findAuthorUserId(authorObjectId) {
-  const user = await User.findOne({ authorRef: authorObjectId, role: 'author' }).select('_id');
+  const user = await User.findOne({
+    authorRef: authorObjectId,
+    role: "author",
+  }).select("_id");
   return user?._id?.toString() ?? null;
 }
 
@@ -49,19 +57,25 @@ function queueClassification(ticketId) {
         emitTicketAiReady(serializeAdminTicket(classified));
       }
     } catch (err) {
-      logger.warn({ err: err.message, ticketId }, 'Background classification failed');
+      logger.warn(
+        { err: err.message, ticketId },
+        "Background classification failed",
+      );
     }
   });
 }
 
-export async function createTicket(authorUser, { bookId, subject, description, attachments }) {
+export async function createTicket(
+  authorUser,
+  { bookId, subject, description, attachments },
+) {
   let book = null;
   if (bookId) {
     book = mongoose.Types.ObjectId.isValid(bookId)
       ? await Book.findById(bookId)
       : await Book.findOne({ bookId });
     if (!book || book.author.toString() !== authorUser.authorRef.toString()) {
-      throw ApiError.notFound('BOOK_NOT_FOUND', 'Book not found');
+      throw ApiError.notFound("BOOK_NOT_FOUND", "Book not found");
     }
   }
 
@@ -72,8 +86,8 @@ export async function createTicket(authorUser, { bookId, subject, description, a
     subject,
     description,
     attachments: attachments ?? [],
-    status: 'Open',
-    aiStatus: 'pending',
+    status: "Open",
+    aiStatus: "pending",
   });
 
   const populated = await loadTicket(ticket._id.toString());
@@ -84,8 +98,8 @@ export async function createTicket(authorUser, { bookId, subject, description, a
 
 export async function listAuthorTickets(authorUser) {
   const tickets = await Ticket.find({ author: authorUser.authorRef })
-    .populate('book')
-    .populate('responses.author', 'name role')
+    .populate("book")
+    .populate("responses.author", "name role")
     .sort({ createdAt: -1 });
   return tickets.map(serializeAuthorTicket);
 }
@@ -93,7 +107,7 @@ export async function listAuthorTickets(authorUser) {
 export async function getAuthorTicket(authorUser, id) {
   const ticket = await loadTicket(id);
   if (ticket.author._id.toString() !== authorUser.authorRef.toString()) {
-    throw ApiError.notFound('TICKET_NOT_FOUND', 'Ticket not found');
+    throw ApiError.notFound("TICKET_NOT_FOUND", "Ticket not found");
   }
   return serializeAuthorTicket(ticket);
 }
@@ -101,18 +115,21 @@ export async function getAuthorTicket(authorUser, id) {
 export async function addAuthorReply(authorUser, id, body) {
   const ticket = await loadTicket(id);
   if (ticket.author._id.toString() !== authorUser.authorRef.toString()) {
-    throw ApiError.notFound('TICKET_NOT_FOUND', 'Ticket not found');
+    throw ApiError.notFound("TICKET_NOT_FOUND", "Ticket not found");
   }
-  if (ticket.status === 'Closed') {
-    throw ApiError.unprocessable('TICKET_CLOSED', 'Closed tickets cannot receive follow-ups');
+  if (ticket.status === "Closed") {
+    throw ApiError.unprocessable(
+      "TICKET_CLOSED",
+      "Closed tickets cannot receive follow-ups",
+    );
   }
   ticket.responses.push({
     author: authorUser._id,
-    role: 'author',
+    role: "author",
     body,
   });
-  if (ticket.status === 'Resolved') {
-    ticket.status = 'Open';
+  if (ticket.status === "Resolved") {
+    ticket.status = "Open";
   }
   await ticket.save();
   const fresh = await loadTicket(ticket._id.toString());
@@ -139,7 +156,7 @@ export async function listAdminTickets(query) {
   if (status) filter.status = status;
   if (category) filter.category = category;
   if (priority) filter.priority = priority;
-  if (assignedTo === 'unassigned') filter.assignedTo = null;
+  if (assignedTo === "unassigned") filter.assignedTo = null;
   else if (assignedTo) filter.assignedTo = assignedTo;
   if (dateFrom || dateTo) {
     filter.createdAt = {};
@@ -148,30 +165,31 @@ export async function listAdminTickets(query) {
   }
   if (search) {
     filter.$or = [
-      { subject: { $regex: search, $options: 'i' } },
-      { description: { $regex: search, $options: 'i' } },
-      { ticketNumber: { $regex: search, $options: 'i' } },
+      { subject: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+      { ticketNumber: { $regex: search, $options: "i" } },
     ];
   }
 
   const skip = (page - 1) * limit;
   const tickets = await Ticket.find(filter)
-    .populate('author')
-    .populate('book')
-    .populate('assignedTo', 'name email role')
+    .populate("author")
+    .populate("book")
+    .populate("assignedTo", "name email role")
     .lean();
 
   const now = new Date();
   const decorated = tickets.map((ticket) => serializeAdminTicket(ticket, now));
 
   decorated.sort((a, b) => {
-    if (sort === 'createdAt') {
+    if (sort === "createdAt") {
       return new Date(b.createdAt) - new Date(a.createdAt);
     }
-    const aOpen = a.status === 'Open' || a.status === 'In Progress' ? 0 : 1;
-    const bOpen = b.status === 'Open' || b.status === 'In Progress' ? 0 : 1;
+    const aOpen = a.status === "Open" || a.status === "In Progress" ? 0 : 1;
+    const bOpen = b.status === "Open" || b.status === "In Progress" ? 0 : 1;
     if (aOpen !== bOpen) return aOpen - bOpen;
-    const pw = (PRIORITY_WEIGHT[b.priority] ?? 0) - (PRIORITY_WEIGHT[a.priority] ?? 0);
+    const pw =
+      (PRIORITY_WEIGHT[b.priority] ?? 0) - (PRIORITY_WEIGHT[a.priority] ?? 0);
     if (pw !== 0) return pw;
     return new Date(a.createdAt) - new Date(b.createdAt);
   });
@@ -208,7 +226,9 @@ export async function patchAdminTicket(adminUser, id, payload) {
 }
 
 export async function assignToMe(adminUser, id) {
-  return patchAdminTicket(adminUser, id, { assignedTo: adminUser._id.toString() });
+  return patchAdminTicket(adminUser, id, {
+    assignedTo: adminUser._id.toString(),
+  });
 }
 
 export async function addInternalNote(adminUser, id, body) {
@@ -224,13 +244,13 @@ export async function addAdminReply(adminUser, id, { body, status }) {
   const ticket = await loadTicket(id);
   ticket.responses.push({
     author: adminUser._id,
-    role: 'admin',
+    role: "admin",
     body,
   });
   if (status) {
     ticket.status = status;
-  } else if (ticket.status === 'Open') {
-    ticket.status = 'In Progress';
+  } else if (ticket.status === "Open") {
+    ticket.status = "In Progress";
   }
   await ticket.save();
   const fresh = await loadTicket(ticket._id.toString());
@@ -241,7 +261,7 @@ export async function addAdminReply(adminUser, id, { body, status }) {
 
 export async function reclassify(id) {
   const ticket = await loadTicket(id);
-  ticket.aiStatus = 'pending';
+  ticket.aiStatus = "pending";
   await ticket.save();
   const classified = await classifyTicketById(ticket._id);
   emitTicketAiReady(serializeAdminTicket(classified));
@@ -252,11 +272,14 @@ export async function generateAiDraft(id) {
   const ticket = await loadTicket(id);
 
   // Mark draft as pending
-  ticket.aiDraft = { ...ticket.aiDraft?.toObject?.() ?? {}, status: 'pending' };
+  ticket.aiDraft = {
+    ...(ticket.aiDraft?.toObject?.() ?? {}),
+    status: "pending",
+  };
   await ticket.save();
 
   try {
-    const { generateDraft } = await import('./ai/drafter.js');
+    const { generateDraft } = await import("./ai/drafter.js");
     const book = ticket.book ?? null;
     const author = ticket.author ?? null;
     const { draft, model } = await generateDraft(ticket, book, author);
@@ -265,7 +288,7 @@ export async function generateAiDraft(id) {
       body: draft,
       generatedAt: new Date(),
       model,
-      status: 'ready',
+      status: "ready",
     };
     await ticket.save();
 
@@ -274,10 +297,10 @@ export async function generateAiDraft(id) {
     return serializeAdminTicket(fresh);
   } catch (err) {
     ticket.aiDraft = {
-      body: '',
+      body: "",
       generatedAt: null,
       model: null,
-      status: 'failed',
+      status: "failed",
     };
     await ticket.save();
     // Re-throw so the controller can handle AIUnavailableError vs other errors
@@ -287,7 +310,9 @@ export async function generateAiDraft(id) {
 
 export async function getAdminStats() {
   const now = new Date();
-  const tickets = await Ticket.find().select('status category priority createdAt');
+  const tickets = await Ticket.find().select(
+    "status category priority createdAt",
+  );
   const counts = {
     byStatus: {},
     byCategory: {},
@@ -297,8 +322,10 @@ export async function getAdminStats() {
   };
   for (const ticket of tickets) {
     counts.byStatus[ticket.status] = (counts.byStatus[ticket.status] || 0) + 1;
-    counts.byCategory[ticket.category] = (counts.byCategory[ticket.category] || 0) + 1;
-    counts.byPriority[ticket.priority] = (counts.byPriority[ticket.priority] || 0) + 1;
+    counts.byCategory[ticket.category] =
+      (counts.byCategory[ticket.category] || 0) + 1;
+    counts.byPriority[ticket.priority] =
+      (counts.byPriority[ticket.priority] || 0) + 1;
     const { isOverdue } = serializeAdminTicket(ticket, now);
     if (isOverdue) counts.overdue += 1;
   }

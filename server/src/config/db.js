@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
-import { env } from './env.js';
-import { logger } from '../utils/logger.js';
+import mongoose from "mongoose";
+import { env } from "./env.js";
+import { logger } from "../utils/logger.js";
 
 export async function connectDb(uri = env.MONGODB_URI) {
-  mongoose.set('strictQuery', true);
+  mongoose.set("strictQuery", true);
   await mongoose.connect(uri);
-  logger.info('MongoDB connected');
+  logger.info("MongoDB connected");
 }
 
 export async function disconnectDb() {
