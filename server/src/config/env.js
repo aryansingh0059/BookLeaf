@@ -15,7 +15,15 @@ const envSchema = z.object({
   MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
   JWT_EXPIRES_IN: z.string().min(1).default("7d"),
-  CLIENT_ORIGIN: z.string().url("CLIENT_ORIGIN must be a valid URL"),
+  CLIENT_ORIGIN: z
+    .string()
+    .transform((value) => value.split(",").map((origin) => origin.trim()))
+    .pipe(
+      z.array(z.string().url("CLIENT_ORIGIN must contain valid URLs")).min(1),
+    )
+    .transform((origins) => [
+      ...new Set(origins.map((origin) => new URL(origin).origin)),
+    ]),
   GROQ_API_KEY: z.string().optional().default(""),
   GROQ_CLASSIFY_MODEL: z.string().min(1).default("openai/gpt-oss-20b"),
   GROQ_DRAFT_MODEL: z.string().min(1).default("openai/gpt-oss-120b"),

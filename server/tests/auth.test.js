@@ -45,6 +45,24 @@ afterAll(async () => {
 });
 
 describe('auth', () => {
+  it('allows configured frontend origins and rejects unconfigured origins', async () => {
+    const previewOrigin =
+      'https://book-leaf-2u53y3rgi-aryan-kumars-projects-38c41021.vercel.app';
+    const allowed = await request(app)
+      .options('/api/v1/auth/login')
+      .set('Origin', previewOrigin)
+      .set('Access-Control-Request-Method', 'POST')
+      .set('Access-Control-Request-Headers', 'content-type');
+    const rejected = await request(app)
+      .options('/api/v1/auth/login')
+      .set('Origin', 'https://untrusted.example')
+      .set('Access-Control-Request-Method', 'POST')
+      .set('Access-Control-Request-Headers', 'content-type');
+
+    expect(allowed.headers['access-control-allow-origin']).toBe(previewOrigin);
+    expect(rejected.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
   it('logs in an author and returns a token', async () => {
     const res = await request(app).post('/api/v1/auth/login').send({
       email: 'priya.sharma@email.com',
