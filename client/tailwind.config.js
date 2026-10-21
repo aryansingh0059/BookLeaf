@@ -20,15 +20,6 @@ export default {
         hard: '4px 4px 0 0 #2d2d2d',
         'hard-lg': '8px 8px 0 0 #2d2d2d',
       },
-      keyframes: {
-        'bounce-slow': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-6px)' },
-        },
-      },
-      animation: {
-        'bounce-slow': 'bounce-slow 3s ease-in-out infinite',
-      },
     },
   },
   plugins: [],
