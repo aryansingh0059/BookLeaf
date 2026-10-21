@@ -19,14 +19,9 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import { notFound } from "./middleware/notFound.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-let swaggerDoc = null;
-try {
-  const yamlPath = path.resolve(__dirname, "../openapi.yaml");
-  swaggerDoc = parseYaml(readFileSync(yamlPath, "utf8"));
-} catch {
-  // Swagger not available yet; skip silently
-}
+const swaggerDoc = parseYaml(
+  readFileSync(path.join(__dirname, "../openapi.yaml"), "utf8"),
+);
 
 export function createApp() {
   const app = express();
@@ -34,7 +29,28 @@ export function createApp() {
   app.set("trust proxy", 1);
   app.use(
     helmet({
-      contentSecurityPolicy: false, // Allow swagger-ui inline scripts
+      contentSecurityPolicy: {
+        directives: {
+          styleSrc: ["'self'"],
+        },
+      },
+    }),
+  );
+  app.use(
+    "/api/docs",
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:"],
+        fontSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        frameAncestors: ["'none'"],
+      },
     }),
   );
   app.use(
@@ -56,10 +72,18 @@ export function createApp() {
   });
   app.use("/api", apiLimiter);
 
-  // Swagger UI
-  if (swaggerDoc) {
-    app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-  }
+  app.get("/", (req, res) => {
+    res.json({
+      name: "BookLeaf API",
+      status: "ok",
+      docs: "/api/docs",
+      health: "/api/v1/health",
+    });
+  });
+  app.get("/api/docs.json", (req, res) => {
+    res.json(swaggerDoc);
+  });
+  app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
   app.use("/api/v1/auth", authRouter);
   app.use("/api/v1/books", booksRouter);
