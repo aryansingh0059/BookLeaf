@@ -151,6 +151,8 @@ export function Navbar() {
 
   const isAdmin = user.role === 'admin';
   const accentClass = isAdmin ? 'border-accent' : 'border-ink-blue';
+  const roleLabel = isAdmin ? 'Admin' : 'Author';
+  const roleTitle = isAdmin ? 'Admin: BookLeaf operations team' : 'Author';
 
   function handleLogout() {
     disconnectSocket();
@@ -169,8 +171,6 @@ export function Navbar() {
             <Leaf aria-hidden="true" className={`h-7 w-7 ${isAdmin ? 'text-accent' : 'text-ink-blue'}`} strokeWidth={2.5} />
             <span className="font-heading text-3xl font-bold leading-none">BookLeaf</span>
           </Link>
-          <span className="hidden md:inline"><Badge variant={isAdmin ? 'high' : 'in-progress'}>{isAdmin ? 'Ops' : 'Author'}</Badge></span>
-
           <div className="hidden flex-1 items-center gap-2 lg:flex">
             <NavItems isAdmin={isAdmin} />
           </div>
@@ -178,7 +178,7 @@ export function Navbar() {
           <div className="ml-auto hidden items-center gap-2 lg:flex">
             <ConnectionIndicator />
             <span className="max-w-40 truncate font-body text-lg font-bold text-pencil">{user.name}</span>
-            <Badge variant={isAdmin ? 'high' : 'in-progress'}>{isAdmin ? 'Ops' : 'Author'}</Badge>
+            <Badge title={roleTitle} variant={isAdmin ? 'high' : 'in-progress'}>{roleLabel}</Badge>
             <Button variant="ghost" onClick={handleLogout}>Logout</Button>
           </div>
 
@@ -230,12 +230,14 @@ export function Navbar() {
                 <X aria-hidden="true" strokeWidth={2.5} />
               </Button>
             </div>
-            <Badge variant={isAdmin ? 'high' : 'in-progress'}>{isAdmin ? 'Ops portal' : 'Author portal'}</Badge>
             <div className="flex flex-col items-stretch">
               <NavItems isAdmin={isAdmin} onNavigate={() => setDrawerOpen(false)} />
             </div>
             <div className="mt-auto space-y-3 border-t-2 border-dashed border-muted pt-4">
-              <p className="font-body text-lg font-bold">{user.name}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="font-body text-lg font-bold">{user.name}</p>
+                <Badge title={roleTitle} variant={isAdmin ? 'high' : 'in-progress'}>{roleLabel}</Badge>
+              </div>
               <Button variant="ghost" className="w-full" onClick={handleLogout}>Logout</Button>
             </div>
           </aside>
