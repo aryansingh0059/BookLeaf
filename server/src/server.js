@@ -2,6 +2,7 @@ import http from "node:http";
 import { Server as SocketIOServer } from "socket.io";
 import jwt from "jsonwebtoken";
 import { env } from "./config/env.js";
+import { corsOrigin } from "./config/corsOrigin.js";
 import { connectDb } from "./config/db.js";
 import { createApp } from "./app.js";
 import { logger } from "./utils/logger.js";
@@ -13,7 +14,7 @@ const httpServer = http.createServer(app);
 // --- Socket.IO ---
 const io = new SocketIOServer(httpServer, {
   cors: {
-    origin: env.CLIENT_ORIGIN,
+    origin: corsOrigin,
     credentials: true,
   },
   // Require JWT in the handshake auth object

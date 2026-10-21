@@ -9,6 +9,7 @@ import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import swaggerUi from "swagger-ui-express";
 import { env } from "./config/env.js";
+import { corsOrigin } from "./config/corsOrigin.js";
 import { authRouter } from "./routes/auth.js";
 import { booksRouter } from "./routes/books.js";
 import { ticketsRouter } from "./routes/tickets.js";
@@ -38,7 +39,7 @@ export function createApp() {
   );
   app.use(
     cors({
-      origin: env.CLIENT_ORIGIN,
+      origin: corsOrigin,
       credentials: true,
     }),
   );
