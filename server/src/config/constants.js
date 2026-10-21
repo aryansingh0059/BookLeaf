@@ -30,18 +30,6 @@ export const PRIORITY_WEIGHT = Object.freeze({
 
 export const AI_STATUSES = Object.freeze(['pending', 'done', 'failed', 'skipped']);
 
-export const PRODUCTION_STAGES = Object.freeze([
-  'Manuscript Received',
-  'Editing (if opted)',
-  'Cover Design',
-  'Typesetting',
-  'Proofreading',
-  'ISBN Assignment',
-  'Printing',
-  'Distribution Setup',
-  'Published & Live',
-]);
-
 export const OVERDUE_HOURS = Object.freeze({
   Critical: 24,
   High: 48,

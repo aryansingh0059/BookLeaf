@@ -7,7 +7,7 @@ import { ApiError } from '../utils/ApiError.js';
 
 const DUMMY_HASH = '$2b$10$CwTycUXWue0Thq9StjUM0uJ8xJ8mQeH1n1n1n1n1n1n1n1n1n1n1e';
 
-export function signToken(user, authorId = null) {
+function signToken(user, authorId = null) {
   return jwt.sign(
     {
       sub: user._id.toString(),
@@ -19,7 +19,7 @@ export function signToken(user, authorId = null) {
   );
 }
 
-export function toPublicUser(user, author = null) {
+function toPublicUser(user, author = null) {
   return {
     id: user._id.toString(),
     email: user.email,

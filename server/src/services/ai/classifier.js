@@ -1,6 +1,5 @@
 import { env, isAiConfigured } from '../../config/env.js';
 import { Ticket } from '../../models/Ticket.js';
-import { Book } from '../../models/Book.js';
 import { logger } from '../../utils/logger.js';
 import { fallbackClassify } from './fallbackClassifier.js';
 

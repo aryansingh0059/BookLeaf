@@ -1,15 +1,3 @@
-export const PRODUCTION_STAGES = [
-  'Manuscript Received',
-  'Editing (if opted)',
-  'Cover Design',
-  'Typesetting',
-  'Proofreading',
-  'ISBN Assignment',
-  'Printing',
-  'Distribution Setup',
-  'Published & Live',
-];
-
 export const TICKET_CATEGORIES = [
   'Royalty & Payments',
   'ISBN & Metadata Issues',

@@ -1,7 +1,7 @@
 const PAYOUT_THRESHOLD_INR = 1000;
 const DAYS_AFTER_QUARTER = 45;
 
-export function endOfCurrentQuarter(from = new Date()) {
+function endOfCurrentQuarter(from = new Date()) {
   const year = from.getUTCFullYear();
   const month = from.getUTCMonth();
   const quarterEndMonth = month < 3 ? 2 : month < 6 ? 5 : month < 9 ? 8 : 11;

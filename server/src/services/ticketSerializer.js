@@ -1,4 +1,4 @@
-import { OVERDUE_HOURS, PRIORITY_WEIGHT, TICKET_STATUSES } from '../config/constants.js';
+import { OVERDUE_HOURS, PRIORITY_WEIGHT } from '../config/constants.js';
 import { royaltyFacts } from './royalty.js';
 
 const AUTHOR_OMIT = [
@@ -18,7 +18,7 @@ function toPlain(doc) {
   return typeof doc.toObject === 'function' ? doc.toObject({ virtuals: true }) : { ...doc };
 }
 
-export function computeAge(ticket, now = new Date()) {
+function computeAge(ticket, now = new Date()) {
   const created = new Date(ticket.createdAt);
   const ageHours = Math.round(((now - created) / 36e5) * 10) / 10;
   const unresolved = ticket.status === 'Open' || ticket.status === 'In Progress';
@@ -64,9 +64,3 @@ export function serializeAdminTicket(ticket, now = new Date()) {
   }
   return plain;
 }
-
-export function unresolvedFirst(status) {
-  return status === 'Open' || status === 'In Progress' ? 0 : 1;
-}
-
-export { TICKET_STATUSES };

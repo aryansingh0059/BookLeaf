@@ -6,7 +6,7 @@
  * Text is sourced from the assignment PDF / BookLeaf policy documentation.
  */
 
-export const KB = {
+const KB = {
   'Royalty & Payments': `
 ROYALTY & PAYMENTS POLICY:
 - BookLeaf pays author royalties quarterly (Jan-Mar, Apr-Jun, Jul-Sep, Oct-Dec quarters).

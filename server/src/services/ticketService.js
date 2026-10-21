@@ -19,7 +19,7 @@ function isTicketRef(value) {
   return /^BL-\d+$/i.test(value) || mongoose.Types.ObjectId.isValid(value);
 }
 
-export async function loadTicket(id) {
+async function loadTicket(id) {
   if (!isTicketRef(id)) {
     throw ApiError.badRequest('INVALID_ID', 'Invalid ticket id');
   }
