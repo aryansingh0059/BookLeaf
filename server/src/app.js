@@ -36,19 +36,12 @@ export function createApp() {
       contentSecurityPolicy: false, // Allow swagger-ui inline scripts
     }),
   );
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://book-leaf-gamma.vercel.app",
-  "https://book-leaf-git-main-aryan-kumars-projects-38c41021.vercel.app",
-  "https://book-leaf-qzdckgmqf-aryan-kumars-projects-38c41021.vercel.app",
-];
-
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  }),
-);
+  app.use(
+    cors({
+      origin: env.CLIENT_ORIGIN,
+      credentials: true,
+    }),
+  );
   app.use(express.json({ limit: "1mb" }));
   if (env.NODE_ENV !== "test") {
     app.use(morgan(env.NODE_ENV === "production" ? "combined" : "dev"));
