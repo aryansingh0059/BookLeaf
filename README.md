@@ -4,9 +4,9 @@ A web app where authors raise and track support tickets, and BookLeaf's operatio
 
 | | |
 |---|---|
-| **Live app** | [FRONTEND_URL] |
-| **API** | [BACKEND_URL]/api/v1 |
-| **API docs (Swagger)** | [BACKEND_URL]/api/docs |
+| **Live app** | https://book-leaf-xi.vercel.app/ |
+| **API** | https://bookleaf-rno9.onrender.com//api/v1/health |
+| **API docs (Swagger)** | https://bookleaf-rno9.onrender.com//api/docs |
 
 > The backend runs on a free tier and sleeps when idle, so the first request can take ~30 seconds. Open the health endpoint (`/api/v1/health`) once before testing.
 
