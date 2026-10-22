@@ -363,4 +363,3 @@ Authenticated with `auth.token`. Server emits `ticket:created` (admins), `ticket
 - The dataset has no passwords, so a default author password is set at seed time for demo purposes.
 - "Overdue" thresholds by priority (e.g. Critical > 24h) are my own choice, as the brief does not define SLAs.
 - The next payout date is computed as the end of the current quarter plus 45 days, based on the knowledge base policy.
-- [Add any other assumption you made.]
